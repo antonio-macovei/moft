@@ -1,0 +1,48 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}M.O.F.T - My Tickets{% endblock %}
+
+{% block header %}
+<form class="form-header" action="" method="POST">
+    <input class="au-input au-input--xl" type="text" name="search" placeholder="Search" />
+    <button class="au-btn--submit" type="submit">
+        <i class="zmdi zmdi-search"></i>
+    </button>
+</form>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="title-5 m-b-35">My Tickets</h3>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                        <tr>
+                            <th>ticket</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                            <tr class="tr-shadow">
+                                <td>{{ booking.ticket.name }}</td>
+                                <td>
+                                    <div class="table-data-feature">
+                                         <a href="{{ path('my_ticket_remove', {'booking_id': booking.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Cancel">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="spacer"></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

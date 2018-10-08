@@ -1,0 +1,83 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}M.O.F.T - Admin Panel{% endblock %}
+
+{% block stylesheets %}
+
+    <link href="/adm/vendor/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Ticket</strong> Management
+                </div>
+                {{ form_start(form) }}
+                    <div class="card-body card-block">
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                {{ form_label(form.name) }}
+                            </div>
+                            <div class="col-12 col-md-9">
+                                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                                <span class="form-error">{{ form_errors(form.name) }}</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                {{ form_label(form.category) }}
+                            </div>
+                            <div class="col-12 col-md-9">
+                                {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+                                <span class="form-error">{{ form_errors(form.category) }}</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                {{ form_label(form.time) }}
+                            </div>
+                            <div class="col-12 col-md-9">
+                                {{ form_widget(form.time, {'attr': {'class': 'form-control datetimepicker '}}) }}
+                                <span class="form-error">{{ form_errors(form.time) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer clearfix">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success btn-sm float-right'}}) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="/adm/vendor/moment/moment.min.js"></script>
+    <script src="/adm/vendor/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+            $('.datetimepicker').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+
+        $.fn.datetimepicker.defaults.icons = {
+            time: 'fa fa-clock-o',
+            date: 'fa fa-calendar',
+            up: 'fa fa-chevron-up',
+            down: 'fa fa-chevron-down',
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-dot-circle-o',
+            clear: 'fa fa-trash',
+            close: 'fa fa-times'
+        };
+    </script>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}M.O.F.T - Admin Panel{% endblock %}
+
+{% block header %}
+<form class="form-header" action="" method="POST">
+    <input class="au-input au-input--xl" type="text" name="search" placeholder="Search" />
+    <button class="au-btn--submit" type="submit">
+        <i class="zmdi zmdi-search"></i>
+    </button>
+</form>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="title-5 m-b-35">Category Management</h3>
+            <div class="table-data__tool">
+                <div class="table-data__tool-right">
+                    <a href="{{ path('category_new') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                        <i class="zmdi zmdi-plus"></i>add category</a>
+                </div>
+            </div>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in categories %}
+                            <tr class="tr-shadow">
+                                <td>{{ category.name }}</td>
+                                <td>
+                                    <div class="table-data-feature">
+                                        <a href="{{ path('category_edit', {'category_id': category.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <i class="zmdi zmdi-edit"></i>
+                                        </a>
+                                         <a href="{{ path('category_remove', {'category_id': category.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="spacer"></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

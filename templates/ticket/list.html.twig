@@ -1,0 +1,84 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}M.O.F.T - Admin Panel{% endblock %}
+
+{% block header %}
+<form class="form-header" action="" method="POST">
+    <input class="au-input au-input--xl" type="text" name="search" placeholder="Search" />
+    <button class="au-btn--submit" type="submit">
+        <i class="zmdi zmdi-search"></i>
+    </button>
+</form>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="title-5 m-b-35">Ticket Management</h3>
+            <div class="table-data__tool">
+                <div class="table-data__tool-right">
+                    <a href="{{ path('ticket_new') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                        <i class="zmdi zmdi-plus"></i>add ticket</a>
+                </div>
+            </div>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>category</th>
+                            <th>sponsor</th>
+                            <th>description</th>
+                            <th>date</th>
+                            <th>taken</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                            <tr class="tr-shadow">
+                                <td>{{ ticket.name }}</td>
+                                <td><span class="block-email">{{ ticket.category.name }}</span></td>
+                                <td>{{ ticket.name }}</td>
+                                <td class="desc">N/A</td>
+                                <td>{{ ticket.time|date('d.m.Y H:i') }}</td>
+                                <td>
+                                    <span class="status--process">3 / 10</span>
+                                </td>
+                                <td>
+                                    <div class="table-data-feature">
+                                        <a href="{{ path('ticket_edit', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <i class="zmdi zmdi-edit"></i>
+                                        </a>
+                                         <a href="{{ path('ticket_remove', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </a>
+                                        <a href="{{ path('my_ticket_book', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Book ticket">
+                                            <i class="zmdi zmdi-more"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="spacer"></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block modal_title %}
+    Confirm action
+{% endblock %}
+{% block modal_body %}
+    Are you sure you want to delete this ticket?
+{% endblock %}
+{% block modal_buttons %}
+    <button type="button" class="btn btn-primary">Save changes</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+{% endblock %}
+

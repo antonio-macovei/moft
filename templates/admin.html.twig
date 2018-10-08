@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title Page-->
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="/adm/css/font-face.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="/adm/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="/adm/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="/adm/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+    {% block stylesheets %}{% endblock %}
+
+    <!-- Main CSS-->
+    <link href="/adm/css/theme.css" rel="stylesheet" media="all">
+
+</head>
+
+<body class="animsition">
+    <div class="page-wrapper">
+        <!-- HEADER MOBILE-->
+        <header class="header-mobile d-block d-lg-none">
+            <div class="header-mobile__bar">
+                <div class="container-fluid">
+                    <div class="header-mobile-inner">
+                        <a class="logo" href="/adm/dashboard">
+                            <img src="/img/moft.png" alt="LSAC" />
+                        </a>
+                        <button class="hamburger hamburger--slider" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar-mobile">
+                <div class="container-fluid">
+                    <ul class="navbar-mobile__list list-unstyled">
+                        <li>
+                            <a href="{{ path('dashboard') }}">
+                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ticket_list') }}">
+                                <i class="fas fa-ticket-alt"></i>Tickets Management</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('category_list') }}">
+                                <i class="fas fa-tags"></i>Category Management</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('blacklist_list') }}">
+                                <i class="fas fa-file-excel"></i>Blacklist Management</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('user_list') }}">
+                                <i class="fas fa-tags"></i>User Management</a>
+                        </li>
+                        <li>
+                            <a href="/logout">
+                                <i class="fas fa-power-off"></i>Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- END HEADER MOBILE-->
+
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar d-none d-lg-block">
+            <div class="logo">
+                <a href="#">
+                    <img src="/img/moft.png" alt="LSAC" />
+                </a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <div class="logo">
+                    <a href="#">
+                        <img src="/img/lsacColor.png" alt="MOFT" />
+                    </a>
+                </div>
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li>
+                            <a href="{{ path('dashboard') }}">
+                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ticket_list') }}">
+                                <i class="fas fa-ticket-alt"></i>Tickets Management</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('category_list') }}">
+                                <i class="fas fa-tags"></i>Category Management</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('blacklist_list') }}">
+                                <i class="fas fa-file-excel"></i>BlackList Management</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('user_list') }}">
+                                <i class="fas fa-users"></i>User Management</a>
+                        </li>
+                        <li>
+                            <a href="/logout">
+                                <i class="fas fa-power-off"></i>Logout</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            
+        </aside>
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <header class="header-desktop">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="header-wrap">
+
+                            {% block header %}{% endblock %}
+
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- END HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+
+                        {% block body %}{% endblock %}
+
+                        <div class="row pb-5">
+                            <div class="col-md-12">
+                                <div class="copyright">
+                                    <p>Copyright © 2018 LSAC. Made by Antonio Macovei.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{% block modal_title %}{% endblock %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{% block modal_body %}{% endblock %}</p>
+                </div>
+                <div class="modal-footer">
+                    {% block modal_buttons %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="/adm/vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="/adm/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="/adm/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS-->
+    <script src="/adm/vendor/slick/slick.min.js"></script>
+    <script src="/adm/vendor/wow/wow.min.js"></script>
+    <script src="/adm/vendor/animsition/animsition.min.js"></script>
+    <script src="/adm/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="/adm/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="/adm/vendor/counter-up/jquery.counterup.min.js"></script>
+    <script src="/adm/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="/adm/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/adm/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="/adm/vendor/select2/select2.min.js"></script>
+
+    {% block javascripts %}{% endblock %}
+
+    <!-- Main JS-->
+    <script src="/adm/js/main.js"></script>
+
+</body>
+
+</html>
+<!-- end document-->

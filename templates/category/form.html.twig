@@ -1,0 +1,33 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}M.O.F.T - Admin Panel{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Category</strong> Management
+                </div>
+                {{ form_start(form) }}
+                    <div class="card-body card-block">
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                {{ form_label(form.name) }}
+                            </div>
+                            <div class="col-12 col-md-9">
+                                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                                <span class="form-error">{{ form_errors(form.name) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer clearfix">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success btn-sm float-right'}}) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
