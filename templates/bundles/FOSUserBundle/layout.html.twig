@@ -1,0 +1,22 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+<!-- Section -->
+<section class="page-section mt-50">
+    <div class="container relative">
+        
+        {% block form_nav %}{% endblock %}
+
+        <!-- Form -->                            
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                {% block fos_user_content %}
+                {% endblock fos_user_content %}
+            </div>
+        </div>
+        <!-- End Form -->
+        
+    </div>
+</section>
+<!-- End Section -->
+{% endblock %}

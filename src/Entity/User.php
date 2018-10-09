@@ -43,6 +43,36 @@ class User extends BaseUser
      */
     private $bookings;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $university;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $faculty;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $studentId;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $facebook;
+
     public function __construct()
     {
         parent::__construct();
@@ -123,5 +153,89 @@ class User extends BaseUser
         }
 
         return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getUniversity(): ?string
+    {
+        return $this->university;
+    }
+
+    public function setUniversity(string $university): self
+    {
+        $this->university = $university;
+
+        return $this;
+    }
+
+    public function getFaculty(): ?string
+    {
+        return $this->faculty;
+    }
+
+    public function setFaculty(string $faculty): self
+    {
+        $this->faculty = $faculty;
+
+        return $this;
+    }
+
+    public function getStudentId(): ?int
+    {
+        return $this->studentId;
+    }
+
+    public function setStudentId(int $studentId): self
+    {
+        $this->studentId = $studentId;
+
+        return $this;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(?string $facebook): self
+    {
+        $this->facebook = $facebook;
+
+        return $this;
+    }
+
+    /**
+     * Overridden so that username is now optional
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->setUsername($email);
+        return parent::setEmail($email);
     }
 }

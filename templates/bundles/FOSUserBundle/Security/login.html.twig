@@ -1,0 +1,23 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block form_nav %}
+<!-- Nav Tabs -->
+<div class="align-center mb-40 mb-xxs-30">
+    <ul class="nav nav-tabs tpl-minimal-tabs">
+        
+        <li class="active">
+            <a href="{{ path('fos_user_security_login') }}">Autentificare</a>
+        </li>
+        
+        <li>
+            <a href="{{ path('fos_user_registration_register') }}">Înregistrare</a>
+        </li>
+        
+    </ul>
+</div>
+<!-- End Nav Tabs -->
+{% endblock %}
+
+{% block fos_user_content %}
+    {{ include('@FOSUser/Security/login_content.html.twig') }}
+{% endblock fos_user_content %}

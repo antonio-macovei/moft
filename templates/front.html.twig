@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>M.O.F.T</title>
+        <meta charset="utf-8">
+        <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        
+        <!-- Favicons -->
+        <link rel="shortcut icon" href="/front/images/favicon.png">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/front/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/front/css/style.css">
+        <link rel="stylesheet" href="/front/css/style-responsive.css">
+        <link rel="stylesheet" href="/front/css/animate.min.css">
+        <link rel="stylesheet" href="/front/css/vertical-rhythm.min.css">
+        <link rel="stylesheet" href="/front/css/owl.carousel.css">
+        <link rel="stylesheet" href="/front/css/magnific-popup.css">
+        <link rel="stylesheet" href="/front/css/rev-slider.css">
+        <link rel="stylesheet" href="/front/rs-plugin/css/settings.css" media="screen" />        
+
+        
+    </head>
+    <body class="appear-animate">
+        
+        <!-- Page Loader -->        
+        <div class="page-loader">
+            <div class="loader">Loading...</div>
+        </div>
+        <!-- End Page Loader -->
+        
+        <!-- Page Wrap -->
+        <div class="page" id="top">
+            
+            {% block slider %}{% endblock %}
+
+            <!-- Navigation panel -->
+            <nav class="main-nav white stick-fixed">
+                <div class="full-wrapper relative clearfix">
+                    <!-- Logo ( * your text or image into link tag *) -->
+                    <div class="nav-logo-wrap local-scroll">
+                        <a href="{{ path('index') }}" class="logo">
+                            <img src="/front/images/logo/moft.svg" alt="" width="178" height="136" />
+                        </a>
+                    </div>
+                    <div class="mobile-nav">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                    
+                    <!-- Main Menu -->
+                    <div class="inner-nav desktop-nav">
+                        <ul class="clearlist">
+                            <li>
+                                <a href="{{ path('index') }}">Depre eveniment</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('tickets') }}">Bilete</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('sponsors') }}">Sponsori</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('contact') }}">Contact</a>
+                            </li>
+                            {% if is_granted("ROLE_USER") %}
+                                <li>
+                                    <a href="{{ path('contact') }}">Contul meu</a>
+                                </li>
+                            {% endif %}
+                            
+                            <!-- Divider -->
+                            <li><a>&nbsp;</a></li>
+                            <!-- End Divider -->
+                            
+                            {% if is_granted("ROLE_USER") %}
+                                <li><a>Bine ai venit, {{ app.user.firstName }}!</a></li>
+                                <li>
+                                    <a href="{{ path('fos_user_security_logout') }}">
+                                        Ieșire
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('fos_user_security_login') }}">Autentificare</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- End Main Menu -->
+                    
+
+                </div>
+            </nav>
+            <!-- End Navigation panel -->
+            
+            {% block body %}{% endblock %}
+            
+            <!-- Foter -->
+            <footer class="page-section bg-dark-lighter footer pb-60 pt-30">
+                <div class="container">
+                    
+                    <!-- Footer Logo -->
+                    <div class="local-scroll mb-30 wow fadeInUp" data-wow-duration="1.5s">
+                        <a href="{{ path('index') }}"><img src="/front/images/logo/lsac.svg" width="178" height="136" alt="" /></a>
+                    </div>
+                    <!-- End Footer Logo -->
+                    
+                    <!-- Social Links -->
+                    <div class="footer-social-links mb-30 mb-xs-60">
+                        <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+                    </div>
+                    <!-- End Social Links -->  
+                    
+                    <!-- Footer Text -->
+                    <div class="footer-text">
+                        
+                        <!-- Copyright -->
+                        <div class="footer-copy font-alt">
+                            <a href="lsacbucuresti.ro" target="_blank">&copy; LSAC Bucuresti {{ "now"|date("Y") }}</a>
+                        </div>
+                        <!-- End Copyright -->
+                        
+                    </div>
+                    <!-- End Footer Text --> 
+                    
+                 </div>
+                 
+                 
+                 <!-- Top Link -->
+                 <div class="local-scroll">
+                     <a href="#top" class="link-to-top"><i class="fa fa-caret-up"></i></a>
+                 </div>
+                 <!-- End Top Link -->
+                 
+            </footer>
+            <!-- End Foter -->
+        
+        
+        </div>
+        <!-- End Page Wrap -->
+        
+        
+        <!-- JS -->
+        <script type="text/javascript" src="/front/js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.easing.1.3.js"></script>
+        <script type="text/javascript" src="/front/js/bootstrap.min.js"></script>        
+        <script type="text/javascript" src="/front/js/SmoothScroll.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.scrollTo.min.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.localScroll.min.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.viewport.mini.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.countTo.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.appear.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.sticky.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.parallax-1.1.3.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.fitvids.js"></script>
+        <script type="text/javascript" src="/front/js/owl.carousel.min.js"></script>
+        <script type="text/javascript" src="/front/js/isotope.pkgd.min.js"></script>
+        <script type="text/javascript" src="/front/js/imagesloaded.pkgd.min.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.magnific-popup.min.js"></script>
+        <script type="text/javascript" src="/front/js/wow.min.js"></script>
+        <script type="text/javascript" src="/front/js/masonry.pkgd.min.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.simple-text-rotator.min.js"></script>
+        <script type="text/javascript" src="/front/js/all.js"></script>
+        <script type="text/javascript" src="/front/js/contact-form.js"></script>
+        <script type="text/javascript" src="/front/js/jquery.ajaxchimp.min.js"></script> 
+        <script type="text/javascript" src="/front/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+		<script type="text/javascript" src="/front/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+        <script type="text/javascript" src="/front/js/rev-slider.js"></script>        
+        <!--[if lt IE 10]><script type="text/javascript" src="/front/js/placeholder.js"></script><![endif]-->
+        
+    </body>
+</html>

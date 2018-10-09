@@ -1,0 +1,69 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+
+    <div class="clearfix">
+
+        <div class="form-group">
+            {{ form_row(form.lastName) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.firstName) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.phone) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.email) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.university) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.faculty) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.studentId) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.facebook) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.plainPassword.first) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.plainPassword.second) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.GDPR) }}
+        </div>
+            
+    </div>
+    <div class="pt-10">
+        <input type="submit" value="{{ 'registration.submit'|trans }}" class="submit_btn btn btn-mod btn-medium btn-round btn-full" id="reg-btn" />
+    </div>
+
+    <div class="form-group pt-40">
+        * Completarea prezentului formular reprezintă acordul tău pentru prelucrarea datelor cu caracter personal, exclusiv în scopul realizării activităților LSAC și păstrarea lor în baza de date. Menționăm că acordul este obligatoriu pentru a-ți face cont și a-ți lua bilet ulterior. 
+    </div>
+{{ form_end(form) }}
+
+<!--<form class="form contact-form" id="contact_form">
+    
+    
+    <div class="pt-10">
+        <button class="submit_btn btn btn-mod btn-medium btn-round btn-full" id="reg-btn">Register</button>
+    </div>
+    
+</form>-->
