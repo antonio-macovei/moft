@@ -10,34 +10,24 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BookingController extends AbstractController
 {
-    /**
-     * @Route("/booking", name="booking")
-     */
-    public function index()
-    {
-        return $this->render('booking/index.html.twig', [
-            'controller_name' => 'BookingController',
-        ]);
-    }
-
      /**
-     * @Route("/tickets/my-tickets", name="my_ticket_list")
+     * @Route("/account/my-account", name="my_account")
      */
-    public function my_ticket_list()
+    public function my_account()
     {
         $user = $this->getUser();
         $repository = $this->getDoctrine()->getRepository(Booking::class);
         $bookings = $repository->findBy(array("user" => $user));
 
-        return $this->render('booking/list.html.twig', [
+        return $this->render('front/my_tickets.html.twig', [
             'bookings' => $bookings,
         ]);
     }
 
     /**
-     * @Route("/tickets/book/{ticket_id}", name="my_ticket_book")
+     * @Route("/account/book/{ticket_id}", name="my_ticket_book")
      */
-    public function my_ticket_book($ticket_id)
+    public function ticket_book($ticket_id)
     {
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
         $ticket = $repository->find($ticket_id);
@@ -55,9 +45,9 @@ class BookingController extends AbstractController
     }
 
     /**
-     * @Route("/tickets/cancel/{booking_id}", name="my_ticket_remove")
+     * @Route("/account/cancel/{booking_id}", name="my_ticket_remove")
      */
-    public function my_ticket_remove($booking_id)
+    public function ticket_remove($booking_id)
     {
         $repository = $this->getDoctrine()->getRepository(Booking::class);
         $booking = $repository->find($booking_id);

@@ -78,7 +78,7 @@ class User extends BaseUser
         parent::__construct();
         $this->blacklists = new ArrayCollection();
         $this->bookings = new ArrayCollection();
-        // your own logic
+        $this->addRole("ROLE_USER");
     }
 
     public function getPhone(): ?string

@@ -1,0 +1,48 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}M.O.F.T - Contul meu{% endblock %}
+
+{% block body %}
+<!-- Section -->
+<section class="page-section">
+    <div class="container relative">
+        <div class="et-examples row mb-xs-30 mb-40">
+            <h1 class="mb-0 mt-20 align-center">Contul meu</h1>
+            <h2 class="mb-20 mt-10 align-center">{{ app.user.firstName }} {{ app.user.lastName }}</h2>
+            <span class="box1 center" title="Email"><span aria-hidden="true" class="icon-envelope"></span>{{ app.user.email }}</span>
+            <span class="box1 center" title="Telefon"><span aria-hidden="true" class="icon-phone"></span>{{ app.user.phone }}</span>
+            <span class="box1 center" title="Legitimație student"><span aria-hidden="true" class="icon-clipboard"></span>Legitimație nr. {{ app.user.studentId }}</span>
+            <span class="box1 center" title="Universitate"><span aria-hidden="true" class="icon-briefcase"></span>{{ app.user.university }}</span>
+            <span class="box1 center" title="Facultate"><span aria-hidden="true" class="icon-gears"></span>{{ app.user.faculty }}</span>
+        </div>
+        <h1 class="mb-0 mt-20 align-center">Biletele mele</h1>
+        {% if not bookings %}
+            <div class="row section-text">
+                <div class="col-md-8 col-md-offset-2">
+                    <hr class="mb-30"/>
+                    <h4 class="font-alt mb-10 align-center">Nu aveți niciun bilet</h4>
+                    <hr class="mb-30"/>
+                </div>
+            </div>
+        {% else %}
+            {% for booking in bookings %}
+                <div class="row section-text">
+                    <div class="col-md-8 col-md-offset-2">
+                        <hr class="mb-30"/>
+                        <h3 class="font-alt mb-10">{{ booking.ticket.name }}</h3>
+                        <p>Luni, 20 octombrie, ora 18:00</p>
+                        <div class="right mt-0">
+                            <a href="{{ path('my_ticket_remove', { 'booking_id': booking.id }) }}" class="btn btn-mod btn-border btn-round btn-medium" target="_blank">Anulare bilet</a>
+                        </div>
+                        {% if loop.last %}
+                            <div class="clear"></div>
+                            <hr class="mb-30"/>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</section>
+<!-- End Section -->
+{% endblock %}

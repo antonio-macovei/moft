@@ -99,11 +99,13 @@ Section Text:       15px/1.7 "Open Sans", arial, sans-serif;
    Common styles
    ============================== */
   
+.clear{ clear:both; }
 .align-center{ text-align:center !important; }
 .align-left{ text-align:left !important;}
 .align-right{ text-align:right !important; }
 .left{float:left !important;}
 .right{float:right !important;}
+.center{float:none !important; margin: auto !important;}
 .relative{position:relative;}
 .hidden{display:none;}
 .inline-block{display:inline-block;}
@@ -5549,7 +5551,7 @@ section:hover .small-item-carousel .owl-next{
     width: 33%;
     float: left;
     padding: 0;
-    border: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
     margin: -1px 0 0 -1px;
     font-size: 13px;
 }
@@ -5569,13 +5571,13 @@ section:hover .small-item-carousel .owl-next{
 }
 .et-examples .box1 > span{
     display: inline-block;
-    margin-right: 5px;
-    min-width: 70px;
-    min-height: 70px;
+    margin-right: 10px;
+    min-width: 40px;
+    min-height: 40px;
     border-right: 1px solid #f1f1f1;
-    line-height:70px;
+    line-height:40px;
     text-align: center;
-    font-size: 32px;
+    font-size: 20px;
 }
 
 /* ==============================
@@ -6458,3 +6460,13 @@ section:hover .small-item-carousel .owl-next{
     .multi-columns-row .col-lg-2:nth-child(6n + 7) { clear: left; }
     .multi-columns-row .col-lg-1:nth-child(12n + 13) { clear: left; }
 }
+
+.pl-10 {padding-left:10px;}
+.pl-20 {padding-left:20px;}
+.pl-30 {padding-left:30px;}
+.pl-40 {padding-left:40px;}
+.pl-50 {padding-left:50px;}
+.pl-60 {padding-left:60px;}
+.pl-70 {padding-left:70px;}
+.pl-80 {padding-left:80px;}
+.pl-90 {padding-left:90px;}

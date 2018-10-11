@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>M.O.F.T</title>
+        <title>{% block title %}{% endblock %}</title>
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -45,7 +45,7 @@
                         </a>
                     </div>
                     <div class="mobile-nav">
-                        <i class="fa fa-bars"></i>
+                        <i class="fa fa-bars black"></i>
                     </div>
                     
                     <!-- Main Menu -->
@@ -65,7 +65,12 @@
                             </li>
                             {% if is_granted("ROLE_USER") %}
                                 <li>
-                                    <a href="{{ path('contact') }}">Contul meu</a>
+                                    <a href="{{ path('my_account') }}">Contul meu</a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted("ROLE_SUPER_ADMIN") %}
+                                <li>
+                                    <a href="{{ path('dashboard') }}">Admin Panel</a>
                                 </li>
                             {% endif %}
                             
@@ -74,7 +79,7 @@
                             <!-- End Divider -->
                             
                             {% if is_granted("ROLE_USER") %}
-                                <li><a>Bine ai venit, {{ app.user.firstName }}!</a></li>
+                                <li><a>Salut, {{ app.user.firstName }}!</a></li>
                                 <li>
                                     <a href="{{ path('fos_user_security_logout') }}">
                                         Ieșire
@@ -117,7 +122,7 @@
                         
                         <!-- Copyright -->
                         <div class="footer-copy font-alt">
-                            <a href="lsacbucuresti.ro" target="_blank">&copy; LSAC Bucuresti {{ "now"|date("Y") }}</a>
+                            <a href="https://lsacbucuresti.ro" target="_blank">&copy; LSAC Bucuresti {{ "now"|date("Y") }}</a>
                         </div>
                         <!-- End Copyright -->
                         

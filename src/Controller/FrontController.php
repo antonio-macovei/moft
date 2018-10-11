@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Ticket;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class FrontController extends AbstractController
 {
@@ -22,9 +25,12 @@ class FrontController extends AbstractController
      */
     public function tickets()
     {
-        return $this->render('front/index.html.twig', [
-            
-        ]);
+        $repository = $this->getDoctrine()->getRepository(Ticket::class);
+        $tickets = $repository->findAll();
+
+        return $this->render('front/tickets.html.twig', [
+            'tickets' => $tickets,
+        ]);   
     }
 
     /**
@@ -32,7 +38,7 @@ class FrontController extends AbstractController
      */
     public function sponsors()
     {
-        return $this->render('front/index.html.twig', [
+        return $this->render('front/sponsors.html.twig', [
             
         ]);
     }
@@ -40,10 +46,23 @@ class FrontController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact()
+    public function contact(Request $request)
     {
-        return $this->render('front/index.html.twig', [
-            
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->add('save', SubmitType::class);
+        // de facut verificari
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($category);
+            $entityManager->flush();
+            return $this->redirectToRoute('category_list');
+            // de afisat mesaj
+        }
+
+        return $this->render('front/contact.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

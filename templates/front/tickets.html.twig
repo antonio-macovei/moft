@@ -1,0 +1,54 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}M.O.F.T - Bilete{% endblock %}
+
+{% block body %}
+<!-- Section -->
+<section class="page-section">
+    <div class="container relative">
+        <!-- Heading -->
+        <div class="row mb-xs-30">
+            <div class="col mb-40 align-center">
+                <h1>Bilete</h1>
+            </div>
+        </div>
+        <!-- End Heading -->
+
+        {% for ticket in tickets %}
+            <div class="row">
+                
+                <div class="col-md-5 col-lg-4 mb-sm-40">
+                    
+                    <img src="/front/images/featured/museum.jpg" alt="" />
+                    
+                </div>
+                
+                <div class="col-md-7 col-lg-offset-1">
+
+                    <div class="text">
+                    
+                        <h3 class="font-alt mb-30 mb-xxs-10">{{ ticket.name }}</h3>
+                        <p>
+                            {{ ticket.name }}
+                        </p>
+                        
+                        <div class="mt-40">
+                            <a href="{{ path('my_ticket_book', { 'ticket_id': ticket.id }) }}" class="btn btn-mod btn-border btn-round btn-medium">Rezervă biletul</a>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+
+            {% if not loop.last %}
+                <!-- Divider -->
+                <hr class="mt-20 mb-20 "/>
+                <!-- End Divider -->
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+<!-- End Section -->
+{% endblock %}

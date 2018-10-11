@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title Page-->
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}MOFT{% endblock %}</title>
 
     <!-- Fontfaces CSS-->
     <link href="/adm/css/font-face.css" rel="stylesheet" media="all">
@@ -41,7 +41,7 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="/adm/dashboard">
+                        <a class="logo" href="{{ path('index') }}">
                             <img src="/img/moft.png" alt="LSAC" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
@@ -88,13 +88,13 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="#">
+                <a href="{{ path('index') }}">
                     <img src="/img/moft.png" alt="LSAC" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <div class="logo">
-                    <a href="#">
+                    <a href="https://lsacbucuresti.ro">
                         <img src="/img/lsacColor.png" alt="MOFT" />
                     </a>
                 </div>
