@@ -73,12 +73,18 @@ class User extends BaseUser
      */
     private $facebook;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\WaitingList", mappedBy="user", orphanRemoval=true)
+     */
+    private $waitingLists;
+
     public function __construct()
     {
         parent::__construct();
         $this->blacklists = new ArrayCollection();
         $this->bookings = new ArrayCollection();
         $this->addRole("ROLE_USER");
+        $this->waitingLists = new ArrayCollection();
     }
 
     public function getPhone(): ?string
@@ -237,5 +243,36 @@ class User extends BaseUser
     {
         $this->setUsername($email);
         return parent::setEmail($email);
+    }
+
+    /**
+     * @return Collection|WaitingList[]
+     */
+    public function getWaitingLists(): Collection
+    {
+        return $this->waitingLists;
+    }
+
+    public function addWaitingList(WaitingList $waitingList): self
+    {
+        if (!$this->waitingLists->contains($waitingList)) {
+            $this->waitingLists[] = $waitingList;
+            $waitingList->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWaitingList(WaitingList $waitingList): self
+    {
+        if ($this->waitingLists->contains($waitingList)) {
+            $this->waitingLists->removeElement($waitingList);
+            // set the owning side to null (unless already changed)
+            if ($waitingList->getUser() === $this) {
+                $waitingList->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

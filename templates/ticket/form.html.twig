@@ -45,6 +45,15 @@
                                 <span class="form-error">{{ form_errors(form.time) }}</span>
                             </div>
                         </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                {{ form_label(form.maxTickets) }}
+                            </div>
+                            <div class="col-12 col-md-9">
+                                {{ form_widget(form.maxTickets, {'attr': {'class': 'form-control'}}) }}
+                                <span class="form-error">{{ form_errors(form.maxTickets) }}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer clearfix">
                         {{ form_widget(form.save, {'attr': {'class': 'btn btn-success btn-sm float-right'}}) }}

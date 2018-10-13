@@ -22,6 +22,16 @@
                         <i class="zmdi zmdi-plus"></i>add ticket</a>
                 </div>
             </div>
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
             <div class="table-responsive table-responsive-data2">
                 <table class="table table-data2">
                     <thead>
@@ -32,7 +42,7 @@
                             <th>description</th>
                             <th>date</th>
                             <th>taken</th>
-                            <th></th>
+                            <th>Options</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,7 +54,11 @@
                                 <td class="desc">N/A</td>
                                 <td>{{ ticket.time|date('d.m.Y H:i') }}</td>
                                 <td>
-                                    <span class="status--process">3 / 10</span>
+                                    {% if bookingRepo.countAllForTicket(ticket) != ticket.maxTickets %}
+                                        <span class="status--process">{{ bookingRepo.countAllForTicket(ticket) }} / {{ ticket.maxTickets != 999 ? ticket.maxTickets : '∞' }}</span>
+                                    {% else %}
+                                        <span class="status--denied">{{ bookingRepo.countAllForTicket(ticket) }} / {{ ticket.maxTickets != 999 ? ticket.maxTickets : '∞' }}</span>
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <div class="table-data-feature">
@@ -53,9 +67,6 @@
                                         </a>
                                          <a href="{{ path('ticket_remove', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                             <i class="zmdi zmdi-delete"></i>
-                                        </a>
-                                        <a href="{{ path('my_ticket_book', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Book ticket">
-                                            <i class="zmdi zmdi-more"></i>
                                         </a>
                                     </div>
                                 </td>

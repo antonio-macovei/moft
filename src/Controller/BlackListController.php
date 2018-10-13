@@ -31,7 +31,10 @@ class BlackListController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(User::class);
         $user = $repository->find($user_id);
 
-        // de facut verificari
+        if(!$user) {
+            $this->addFlash('error', 'User not found!');
+            return $this->redirectToRoute('blacklist_list');
+        }
 
         $blacklist = new Blacklist();
         $blacklist->setUser($user);
@@ -41,8 +44,7 @@ class BlackListController extends AbstractController
         $entityManager->persist($blacklist);
         $entityManager->flush();
     
-        // de afisat mesaj
-
+        $this->addFlash('success', $user->getFirstName() . ' ' . $user->getLastName() . ' (' . $user->getEmail() . ') was added on the blacklist successfully!');
         return $this->redirectToRoute('blacklist_list');
     }
 
@@ -54,14 +56,17 @@ class BlackListController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Blacklist::class);
         $blacklist = $repository->find($blacklist_id);
 
-        // de facut verificari
+        if(!$blacklist) {
+            $this->addFlash('error', 'Blacklist item not found!');
+            return $this->redirectToRoute('blacklist_list');
+        }
+        $user = $blacklist->getUser();
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($blacklist);
         $entityManager->flush();
     
-        // de afisat mesaj
-
+        $this->addFlash('success', $user->getFirstName() . ' ' . $user->getLastName() . ' (' . $user->getEmail() . ') was removed from the blacklist successfully!');
         return $this->redirectToRoute('blacklist_list');
     }
 }

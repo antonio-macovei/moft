@@ -22,6 +22,7 @@ class TicketType extends AbstractType
             ->add('time', DateTimeType::class, array(
                 'widget' => 'single_text',
                 'html5' => false))
+            ->add('maxTickets', TextType::class)
         ;
     }
 

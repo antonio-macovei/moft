@@ -39,8 +39,11 @@ class TicketsController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
         $tickets = $repository->findAll();
 
+        $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
+
         return $this->render('ticket/list.html.twig', [
             'tickets' => $tickets,
+            'bookingRepo' => $bookingRepo,
         ]);
     }
 
@@ -58,8 +61,8 @@ class TicketsController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($ticket);
             $entityManager->flush();
+            $this->addFlash('success', 'Ticket \'' . $ticket->getName() . '\' added successfully!');
             return $this->redirectToRoute('ticket_list');
-            // de afisat mesaj
         }
 
         return $this->render('ticket/form.html.twig', [
@@ -74,7 +77,12 @@ class TicketsController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
         $ticket = $repository->find($ticket_id);
-        // de facut verificari
+        
+        if(!$ticket) {
+            $this->addFlash('error', 'Ticket not found!');
+            return $this->redirectToRoute('ticket_list');
+        }
+
         $form = $this->createForm(TicketType::class, $ticket);
         $form->add('save', SubmitType::class);
 
@@ -82,8 +90,8 @@ class TicketsController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+            $this->addFlash('success', 'Ticket \'' . $ticket->getName() . '\' edited successfully!');
             return $this->redirectToRoute('ticket_list');
-            // de afisat mesaj
         }
 
         return $this->render('ticket/form.html.twig', [
@@ -99,13 +107,18 @@ class TicketsController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
         $ticket = $repository->find($ticket_id);
 
-        // de facut verificari
+        if(!$ticket) {
+            $this->addFlash('error', 'Ticket not found!');
+            return $this->redirectToRoute('ticket_list');
+        }
+
+        $oldName = $ticket->getName();
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($ticket);
         $entityManager->flush();
     
-        // de afisat mesaj
+        $this->addFlash('success', 'Ticket \'' . $oldName . '\' removed successfully!');
 
         return $this->redirectToRoute('ticket_list');
     }

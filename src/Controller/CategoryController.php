@@ -13,16 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/category", name="category")
-     */
-    public function index()
-    {
-        return $this->render('category/index.html.twig', [
-            'controller_name' => 'CategoryController',
-        ]);
-    }
-
-    /**
      * @Route("/admin/categories", name="category_list")
      */
     public function category_list()
@@ -49,8 +39,8 @@ class CategoryController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($category);
             $entityManager->flush();
+            $this->addFlash('success', 'Category \'' . $category->getName() . '\' added successfully!');
             return $this->redirectToRoute('category_list');
-            // de afisat mesaj
         }
 
         return $this->render('category/form.html.twig', [
@@ -65,7 +55,12 @@ class CategoryController extends AbstractController
     {
         $repository = $this->getDoctrine()->getRepository(Category::class);
         $category = $repository->find($category_id);
-        // de facut verificari
+        
+        if(!$category) {
+            $this->addFlash('error', 'Category not found!');
+            return $this->redirectToRoute('category_list');
+        }
+
         $form = $this->createForm(CategoryType::class, $category);
         $form->add('save', SubmitType::class);
 
@@ -73,8 +68,8 @@ class CategoryController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
+            $this->addFlash('success', 'Category \'' . $category->getName() . '\' edited successfully!');
             return $this->redirectToRoute('category_list');
-            // de afisat mesaj
         }
 
         return $this->render('category/form.html.twig', [
@@ -90,13 +85,17 @@ class CategoryController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Category::class);
         $category = $repository->find($category_id);
 
-        // de facut verificari
-
+        if(!$category) {
+            $this->addFlash('error', 'Category not found!');
+            return $this->redirectToRoute('category_list');
+        }
+        
+        $oldName = $category->getName();
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($category);
         $entityManager->flush();
     
-        // de afisat mesaj
+        $this->addFlash('success', 'Category \'' . $oldName . '\' removed successfully!');
 
         return $this->render('category/form.html.twig', [
             'form' => $form->createView(),

@@ -1,7 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    <div class="login_errors">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
 <form action="{{ path("fos_user_security_check") }}" method="post" class="form contact-form" id="contact_form">
@@ -9,8 +9,7 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
     {% endif %}
     <div class="clearfix">
-        
-        
+
         <div class="form-group">
             <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="input-md round form-control" placeholder="Username" pattern=".{3,100}" />
         </div>

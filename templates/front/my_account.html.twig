@@ -16,6 +16,37 @@
             <span class="box1 center" title="Facultate"><span aria-hidden="true" class="icon-gears"></span>{{ app.user.faculty }}</span>
         </div>
         <h1 class="mb-0 mt-20 align-center">Biletele mele</h1>
+        {% if bookings %}
+            <div class="row section-text">
+                <div class="col-md-8 col-md-offset-2">
+                    <!-- Success Message -->
+                    <div class="alert error mt-10">
+                            <i class="fa fa-lg fa-exclamation-triangle"></i> Daca ați rezervat un bilet și nu puteți merge
+                            la eveniment, anulați rezervarea! În caz contrar, veți fi adăugat pe lista neagră!
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="row section-text">
+                <div class="col-md-8 col-md-offset-2">
+                    <!-- Success Message -->
+                    <div class="alert success mt-10">
+                        <i class="fa fa-lg fa-check-circle-o"></i> {{ flashMessage }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="row section-text">
+                <div class="col-md-8 col-md-offset-2">
+                    <!-- Error Message -->
+                    <div class="alert error mt-10">
+                        <i class="fa fa-lg fa-times-circle"></i> {{ flashMessage }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
         {% if not bookings %}
             <div class="row section-text">
                 <div class="col-md-8 col-md-offset-2">
@@ -32,7 +63,7 @@
                         <h3 class="font-alt mb-10">{{ booking.ticket.name }}</h3>
                         <p>Luni, 20 octombrie, ora 18:00</p>
                         <div class="right mt-0">
-                            <a href="{{ path('my_ticket_remove', { 'booking_id': booking.id }) }}" class="btn btn-mod btn-border btn-round btn-medium" target="_blank">Anulare bilet</a>
+                            <a href="{{ path('my_ticket_remove', { 'booking_id': booking.id }) }}" class="btn btn-mod btn-border btn-round btn-medium">Anulare bilet</a>
                         </div>
                         {% if loop.last %}
                             <div class="clear"></div>

@@ -13,8 +13,18 @@
             </div>
         </div>
         <!-- End Heading -->
-
+	
+        {% set flashTicket = app.flashes('ticket')|first %}
+        {% if not flashTicket %}
+            {% for flashMessage in app.flashes('error') %}
+                <!-- Error Message -->
+                <div class="alert error mt-10">
+                    <i class="fa fa-lg fa-times-circle"></i> {{ flashMessage }}
+                </div>
+            {% endfor %}
+        {% endif %}
         {% for ticket in tickets %}
+            <a class="anchorAdjusted" id="{{ ticket.name|lower|replace({' ': '-'}) }}"></a>
             <div class="row">
                 
                 <div class="col-md-5 col-lg-4 mb-sm-40">
@@ -24,17 +34,55 @@
                 </div>
                 
                 <div class="col-md-7 col-lg-offset-1">
-
+                    
                     <div class="text">
                     
-                        <h3 class="font-alt mb-30 mb-xxs-10">{{ ticket.name }}</h3>
-                        <p>
+                        <h3 class="font-alt mb-30 mb-xxs-10">
                             {{ ticket.name }}
-                        </p>
-                        
+                            {% if ticket.maxTickets == 999 %}
+                                <small>(Bilete nelimitate)</small>
+                            {% else %}
+                                <small>({{ ticket.maxTickets - bookingRepo.countAllForTicket(ticket) }} {{ ticket.maxTickets - bookingRepo.countAllForTicket(ticket) == 1 ? 'bilet rămas' : 'bilete rămase' }})</small></small>
+                            {% endif %}
+                        </h3>
+                        <p>{{ ticket.time|date('d.m.Y H:m') }}</p>
+                        {% set disabled = '' %}
+                        {% set disabledReason = '' %}
+                        {% if not is_granted("ROLE_USER") %}
+                            {% set disabled = 'disabled ' %}
+                            {% set disabledReason = 'Trebuie sa fii autentificat pentru a rezerva bilete!' %}
+                        {% endif %}
+                        {% if bookingRepo.countAllForTicket(ticket) >= ticket.maxTickets %}
+                            {% set disabled = 'disabled ' %}
+                            {% set disabledReason = 'Nu mai sunt bilete disponibile!' %}
+                        {% endif %}
+                        {% if ticket.time|date('U') <= 'now'|date('U') %}
+                            {% set disabled = 'disabled ' %}
+                            {% set disabledReason = 'Evenimentul a fost deja!' %}
+                        {% endif %}
                         <div class="mt-40">
-                            <a href="{{ path('my_ticket_book', { 'ticket_id': ticket.id }) }}" class="btn btn-mod btn-border btn-round btn-medium">Rezervă biletul</a>
+                            <a href="{{ path('my_ticket_book', { 'ticket_id': ticket.id }) }}" class="{{ disabled }}btn btn-mod btn-border btn-round btn-medium">Rezervă biletul</a>
                         </div>
+                        {% if disabledReason != '' %}
+                            <div class="alert info mt-10">
+                                <i class="fa fa-lg fa-exclamation-triangle"></i> {{ disabledReason }}
+                            </div>
+                        {% endif %}
+                        {% if flashTicket == ticket.id %}
+                            {% for flashMessage in app.flashes('success') %}
+                                <!-- Success Message -->
+                                <div class="alert success mt-10">
+                                    <i class="fa fa-lg fa-check-circle-o"></i> {{ flashMessage }}
+                                </div>
+                            {% endfor %}
+                            {% for flashMessage in app.flashes('error') %}
+                                <!-- Error Message -->
+                                <div class="alert error mt-10">
+                                    <i class="fa fa-lg fa-times-circle"></i> {{ flashMessage }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
                         
                     </div>
                     

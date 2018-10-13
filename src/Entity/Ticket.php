@@ -42,10 +42,21 @@ class Ticket
      */
     private $time;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $maxTickets = 0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\WaitingList", mappedBy="ticket", orphanRemoval=true)
+     */
+    private $waitingLists;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
         $this->time = new \DateTime();
+        $this->waitingLists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,6 +127,49 @@ class Ticket
     public function setTime(?\DateTimeInterface $time): self
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    public function getMaxTickets(): ?int
+    {
+        return $this->maxTickets;
+    }
+
+    public function setMaxTickets(?int $maxTickets): self
+    {
+        $this->maxTickets = $maxTickets;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|WaitingList[]
+     */
+    public function getWaitingLists(): Collection
+    {
+        return $this->waitingLists;
+    }
+
+    public function addWaitingList(WaitingList $waitingList): self
+    {
+        if (!$this->waitingLists->contains($waitingList)) {
+            $this->waitingLists[] = $waitingList;
+            $waitingList->setTicket($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWaitingList(WaitingList $waitingList): self
+    {
+        if ($this->waitingLists->contains($waitingList)) {
+            $this->waitingLists->removeElement($waitingList);
+            // set the owning side to null (unless already changed)
+            if ($waitingList->getTicket() === $this) {
+                $waitingList->setTicket(null);
+            }
+        }
 
         return $this;
     }
