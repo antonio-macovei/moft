@@ -52,6 +52,11 @@ class Ticket
      */
     private $waitingLists;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $max_waiting;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
@@ -170,6 +175,18 @@ class Ticket
                 $waitingList->setTicket(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMaxWaiting(): ?int
+    {
+        return $this->max_waiting;
+    }
+
+    public function setMaxWaiting(?int $max_waiting): self
+    {
+        $this->max_waiting = $max_waiting;
 
         return $this;
     }

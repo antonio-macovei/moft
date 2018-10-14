@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Booking;
 use App\Entity\Ticket;
 use App\Entity\User;
+use App\Entity\WaitingList;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,8 +20,12 @@ class BookingController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Booking::class);
         $bookings = $repository->findBy(array("user" => $user));
 
+        $repository = $this->getDoctrine()->getRepository(WaitingList::class);
+        $waitings = $repository->findBy(array("user" => $user));
+
         return $this->render('front/my_account.html.twig', [
             'bookings' => $bookings,
+            'waitings' => $waitings,
         ]);
     }
 
@@ -61,10 +66,16 @@ class BookingController extends AbstractController
         // Checks - no tickets left
         $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
         $countBookings = $bookingRepo->countAllForTicket($ticket);
-        if($countBookings >= $ticket->getMaxTickets()) {
+        $waitingListRepo = $this->getDoctrine()->getRepository(WaitingList::class);
+        $countWaitingList = $waitingListRepo->countAllForTicket($ticket);
+        if($countBookings >= $ticket->getMaxTickets() && $ticket->getMaxWaiting() - $countWaitingList <= 0) {
+            // There are no tickets left and no waiting list slots avaialable
             $this->addFlash('error', 'Nu mai există bilete disponibile!');
             $this->addFlash('ticket', $ticket->getId());
             return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
+        } elseif($countBookings >= $ticket->getMaxTickets() && $ticket->getMaxWaiting() - $countWaitingList > 0) {
+            // There is a waiting list slot avaiable, so use it
+            return $this->redirect($this->generateUrl('waiting_list_add', array('user_id' => $this->getUser()->getId(), 'ticket_id' => $ticket->getId())));
         }
 
         // Checks - booking twice in the same category
@@ -131,7 +142,6 @@ class BookingController extends AbstractController
         $entityManager->remove($booking);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Biletul tău la ' . $ticket->getName() . ' a fost anulat cu succes!');
-        return $this->redirectToRoute('my_account');
+        return $this->redirect($this->generateUrl('waiting_list_move', array('ticket_id' => $ticket->getId())));
     }
 }

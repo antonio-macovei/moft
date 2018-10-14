@@ -19,6 +19,17 @@ class WaitingListRepository extends ServiceEntityRepository
         parent::__construct($registry, WaitingList::class);
     }
 
+    public function countAllForTicket($ticket)
+    {
+        return $this->createQueryBuilder('wl')
+            ->select('COUNT(wl.id)')
+            ->where('wl.ticket = :ticket')
+            ->setParameter('ticket', $ticket)
+            ->getQuery()
+            ->getSingleScalarResult();
+        ;
+    }
+
 //    /**
 //     * @return WaitingList[] Returns an array of WaitingList objects
 //     */

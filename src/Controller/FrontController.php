@@ -3,6 +3,8 @@
 namespace App\Controller;
 use App\Entity\Ticket;
 use App\Entity\Booking;
+use App\Entity\Sponsor;
+use App\Entity\WaitingList;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,8 +21,10 @@ class FrontController extends AbstractController
      */
     public function index()
     {
+        $repository = $this->getDoctrine()->getRepository(Sponsor::class);
+        $sponsors = $repository->findAll();
         return $this->render('front/index.html.twig', [
-            
+            'sponsors' => $sponsors,
         ]);
     }
 
@@ -30,13 +34,15 @@ class FrontController extends AbstractController
     public function tickets()
     {
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
-        $tickets = $repository->findAll();
+        $tickets = $repository->findBy([], ['category' => 'ASC']);
 
         $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
+        $waitingListRepo = $this->getDoctrine()->getRepository(WaitingList::class);
 
         return $this->render('front/tickets.html.twig', [
             'tickets' => $tickets,
-            'bookingRepo' => $bookingRepo
+            'bookingRepo' => $bookingRepo,
+            'waitingListRepo' => $waitingListRepo,
         ]);
     }
 

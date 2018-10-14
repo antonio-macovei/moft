@@ -23,7 +23,15 @@
                 </div>
             {% endfor %}
         {% endif %}
+        {% set prevCategory = -1 %}
         {% for ticket in tickets %}
+            {% if prevCategory != ticket.category.id %}
+                {% set prevCategory = ticket.category.id %}
+                <h1 class="align-center mb-10">{{ ticket.category.name }}</h1>
+                <!-- Divider -->
+                <hr class="mt-20 mb-20 "/>
+                <!-- End Divider -->
+            {% endif %}
             <a class="anchorAdjusted" id="{{ ticket.name|lower|replace({' ': '-'}) }}"></a>
             <div class="row">
                 
@@ -52,7 +60,7 @@
                             {% set disabled = 'disabled ' %}
                             {% set disabledReason = 'Trebuie sa fii autentificat pentru a rezerva bilete!' %}
                         {% endif %}
-                        {% if bookingRepo.countAllForTicket(ticket) >= ticket.maxTickets %}
+                        {% if bookingRepo.countAllForTicket(ticket) >= ticket.maxTickets and waitingListRepo.countAllForTicket(ticket) >= ticket.maxWaiting %}
                             {% set disabled = 'disabled ' %}
                             {% set disabledReason = 'Nu mai sunt bilete disponibile!' %}
                         {% endif %}
@@ -81,16 +89,21 @@
                                     <i class="fa fa-lg fa-times-circle"></i> {{ flashMessage }}
                                 </div>
                             {% endfor %}
+                            {% for flashMessage in app.flashes('notice') %}
+                                <!-- Error Message -->
+                                <div class="alert notice mt-10">
+                                    <i class="fa fa-lg fa-exclamation-triangle"></i> {{ flashMessage }}
+                                </div>
+                            {% endfor %}
                         {% endif %}
-                        
-                        
+
                     </div>
                     
                 </div>
                 
             </div>
 
-            {% if not loop.last %}
+            {% if not loop.last and prevCategory == ticket.category.id %}
                 <!-- Divider -->
                 <hr class="mt-20 mb-20 "/>
                 <!-- End Divider -->

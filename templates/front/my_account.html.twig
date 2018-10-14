@@ -73,6 +73,33 @@
                 </div>
             {% endfor %}
         {% endif %}
+        <h1 class="mb-0 mt-20 align-center">Bilete pe lista de așteptare</h1>
+        {% if not waitings %}
+            <div class="row section-text">
+                <div class="col-md-8 col-md-offset-2">
+                    <hr class="mb-30"/>
+                    <h4 class="font-alt mb-10 align-center">Nu aveți niciun bilet în așteptare</h4>
+                    <hr class="mb-30"/>
+                </div>
+            </div>
+        {% else %}
+            {% for waiting in waitings %}
+                <div class="row section-text">
+                    <div class="col-md-8 col-md-offset-2">
+                        <hr class="mb-30"/>
+                        <h3 class="font-alt mb-10">{{ waiting.ticket.name }}</h3>
+                        <p>Luni, 20 octombrie, ora 18:00</p>
+                        <div class="right mt-0">
+                            <a href="{{ path('waiting_list_remove', { 'waiting_id': waiting.id }) }}" class="btn btn-mod btn-border btn-round btn-medium">Renunță</a>
+                        </div>
+                        {% if loop.last %}
+                            <div class="clear"></div>
+                            <hr class="mb-30"/>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </section>
 <!-- End Section -->
