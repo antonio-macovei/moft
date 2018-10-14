@@ -57,6 +57,11 @@ class Ticket
      */
     private $max_waiting;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sponsor", inversedBy="tickets")
+     */
+    private $sponsor;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
@@ -187,6 +192,18 @@ class Ticket
     public function setMaxWaiting(?int $max_waiting): self
     {
         $this->max_waiting = $max_waiting;
+
+        return $this;
+    }
+
+    public function getSponsor(): ?Sponsor
+    {
+        return $this->sponsor;
+    }
+
+    public function setSponsor(?Sponsor $sponsor): self
+    {
+        $this->sponsor = $sponsor;
 
         return $this;
     }
