@@ -1,0 +1,57 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}M.O.F.T - Admin Panel{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="title-5 m-b-35">{{ ticket.name }} ({{ ticket.category.name }})</h3>
+            <div class="table-responsive table-responsive-data2">
+                <h4 class="title-5 m-b-35 text-center">Tickets</h4>
+                <table class="table table-data2">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>email</th>
+                            <th>date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                            <tr class="tr-shadow">
+                                <td>{{ booking.user.firstName }} {{ booking.user.lastName }}</td>
+                                <td>{{booking.user.email }}</td>
+                                <td>{{ booking.ticket.time|date('d.m.Y H:i') }}</td>
+                            </tr>
+                            <tr class="spacer"></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <h4 class="title-5 m-b-35 m-t-35 text-center">Waiting List</h4>
+                <table class="table table-data2">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>email</th>
+                            <th>category</th>
+                            <th>date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for waiting in waitings %}
+                            <tr class="tr-shadow">
+                                <td>{{ waiting.user.firstName }} {{ waiting.user.lastName }}</td>
+                                <td>{{waiting.user.email }}</td>
+                                <td>{{ waiting.ticket.time|date('d.m.Y H:i') }}</td>
+                            </tr>
+                            <tr class="spacer"></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

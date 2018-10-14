@@ -36,9 +36,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/admin/users/new", name="user_new")
-     */
+    ///**
+    // * @Route("/admin/users/new", name="user_new")
+    // */
+    /*
     public function user_new(Request $request)
     {
         $user = new User();
@@ -59,11 +60,12 @@ class UserController extends AbstractController
             'new_user' => true,
         ]);
     }
+    */
 
-    /**
-     * @Route("/admin/users/edit/{user_id}", name="user_edit")
-     */
-    public function user_edit($user_id, Request $request)
+    ///**
+    // * @Route("/admin/users/edit/{user_id}", name="user_edit")
+    // */
+    /*public function user_edit($user_id, Request $request)
     {
         $repository = $this->getDoctrine()->getRepository(User::class);
         $user = $repository->find($user_id);
@@ -82,7 +84,7 @@ class UserController extends AbstractController
         return $this->render('user/form.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
+    }*/
 
     /**
      * @Route("/admin/users/remove/{user_id}", name="user_remove")
@@ -92,7 +94,10 @@ class UserController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(User::class);
         $user = $repository->find($user_id);
 
-        // de facut verificari
+        if(!$user) {
+            $this->addFlash('error', 'User not found!');
+            return $this->redirectToRoute('user_list');
+        }
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($user);

@@ -16,40 +16,49 @@
     <div class="row">
         <div class="col-md-12">
             <h3 class="title-5 m-b-35">User Management</h3>
-            <div class="table-data__tool">
-                <div class="table-data__tool-right">
-                    <a href="{{ path('user_new') }}" class="au-btn au-btn-icon au-btn--green au-btn--small">
-                        <i class="zmdi zmdi-plus"></i>add user</a>
-                </div>
-            </div>
             <div class="table-responsive table-responsive-data2">
                 <table class="table table-data2">
                     <thead>
                         <tr>
-                            <th>username</th>
+                            <th>name</th>
                             <th>email</th>
                             <th>phone</th>
-                            <th>role</th>
-                            <th></th>
+                            <th>university</th>
+                            <th>faculty</th>
+                            <th>student id</th>
+                            <th>fb</th>
+                            <th>options</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for user in users %}
                             <tr class="tr-shadow">
-                                <td>{{ user.username }}</td>
+                                <td>{{ user.firstName }} {{ user.lastName }}</td>
                                 <td><span class="block-email">{{ user.email }}</span></td>
                                 <td>{{ user.phone }}</td>
-                                <td class="desc">{{ user.getRoles.0 }}</td>
+                                <td class="text-center">
+                                    <a class="item" data-toggle="tooltip" data-placement="top" title="{{ user.university }}">
+                                        <i class="zmdi zmdi-map"></i>
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <a class="item" data-toggle="tooltip" data-placement="top" title="{{ user.faculty }}">
+                                        <i class="zmdi zmdi-map"></i>
+                                    </a>
+                                </td>
+                                <td>{{ user.studentId }}</td>
+                                <td>
+                                    <a href="{{ user.facebook }}" class="item" data-toggle="tooltip" data-placement="top" title="Facebook">
+                                        <i class="zmdi zmdi-facebook"></i>
+                                    </a>
+                                </td>
                                 <td>
                                     <div class="table-data-feature">
-                                        <a href="{{ path('user_edit', {'user_id': user.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                            <i class="zmdi zmdi-edit"></i>
+                                        <a href="{{ path('blacklist_add', {'user_id': user.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Add to blacklist">
+                                            <i class="zmdi zmdi-file-plus"></i>
                                         </a>
                                         <a href="{{ path('user_remove', {'user_id': user.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                             <i class="zmdi zmdi-delete"></i>
-                                        </a>
-                                        <a href="{{ path('blacklist_add', {'user_id': user.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Add to blacklist">
-                                            <i class="zmdi zmdi-file-plus"></i>
                                         </a>
                                     </div>
                                 </td>

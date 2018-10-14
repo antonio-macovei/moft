@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Ticket;
 use App\Entity\Category;
 use App\Entity\Booking;
+use App\Entity\WaitingList;
+use App\Entity\User;
 use App\Form\TicketType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,6 +46,56 @@ class TicketsController extends AbstractController
         return $this->render('ticket/list.html.twig', [
             'tickets' => $tickets,
             'bookingRepo' => $bookingRepo,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/tickets/ticket/{ticket_id}", name="list_ticket_users")
+     */
+    public function list_ticket_users($ticket_id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Ticket::class);
+        $ticket = $repository->find($ticket_id);
+        if(!$ticket) {
+            $this->addFlash('error', 'Ticket not found!');
+            return $this->redirectToRoute('ticket_list');
+        }
+
+        $repository = $this->getDoctrine()->getRepository(Booking::class);
+        $bookings = $repository->findBy(array('ticket' => $ticket));
+
+        $repository = $this->getDoctrine()->getRepository(WaitingList::class);
+        $waitings = $repository->findBy(array('ticket' => $ticket));
+
+        return $this->render('ticket/list_users.html.twig', [
+            'bookings' => $bookings,
+            'waitings' => $waitings,
+            'ticket' => $ticket,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/tickets/user/{user_id}", name="list_user_tickets")
+     */
+    public function list_user_tickets($user_id)
+    {
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->find($user_id);
+        if(!$user) {
+            $this->addFlash('error', 'User not found!');
+            return $this->redirectToRoute('ticket_list');
+        }
+
+        $repository = $this->getDoctrine()->getRepository(Booking::class);
+        $bookings = $repository->findBy(array('user' => $user));
+
+        $repository = $this->getDoctrine()->getRepository(WaitingList::class);
+        $waitings = $repository->findBy(array('user' => $user));
+
+        return $this->render('ticket/list_user_tickets.html.twig', [
+            'bookings' => $bookings,
+            'waitings' => $waitings,
+            'user' => $user,
         ]);
     }
 
