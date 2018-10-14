@@ -55,7 +55,7 @@ class Ticket
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $max_waiting;
+    private $max_waiting = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Sponsor", inversedBy="tickets")

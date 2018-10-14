@@ -38,6 +38,15 @@
                         </div>
                         <div class="row form-group">
                             <div class="col col-md-3">
+                                {{ form_label(form.sponsor) }}
+                            </div>
+                            <div class="col-12 col-md-9">
+                                {{ form_widget(form.sponsor, {'attr': {'class': 'form-control'}}) }}
+                                <span class="form-error">{{ form_errors(form.sponsor) }}</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
                                 {{ form_label(form.time) }}
                             </div>
                             <div class="col-12 col-md-9">
@@ -52,6 +61,15 @@
                             <div class="col-12 col-md-9">
                                 {{ form_widget(form.maxTickets, {'attr': {'class': 'form-control'}}) }}
                                 <span class="form-error">{{ form_errors(form.maxTickets) }}</span>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                {{ form_label(form.maxWaiting) }}
+                            </div>
+                            <div class="col-12 col-md-9">
+                                {{ form_widget(form.maxWaiting, {'attr': {'class': 'form-control'}}) }}
+                                <span class="form-error">{{ form_errors(form.maxWaiting) }}</span>
                             </div>
                         </div>
                     </div>

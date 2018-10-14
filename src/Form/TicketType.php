@@ -3,6 +3,7 @@ namespace App\Form;
 
 use App\Entity\Ticket;
 use App\Entity\Category;
+use App\Entity\Sponsor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,10 +20,14 @@ class TicketType extends AbstractType
             ->add('category', EntityType::class, array(
                 'class' => Category::class,
                 'choice_label' => 'name'))
+            ->add('sponsor', EntityType::class, array(
+                'class' => Sponsor::class,
+                'choice_label' => 'name'))
             ->add('time', DateTimeType::class, array(
                 'widget' => 'single_text',
                 'html5' => false))
             ->add('maxTickets', TextType::class)
+            ->add('maxWaiting', TextType::class)
         ;
     }
 
