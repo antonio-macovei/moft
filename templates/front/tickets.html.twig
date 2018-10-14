@@ -13,6 +13,12 @@
             </div>
         </div>
         <!-- End Heading -->
+
+        {% if not tickets %}
+            <hr class="mb-30"/>
+            <h4 class="font-alt mb-10 align-center">Nu există niciun bilet încă</h4>
+            <hr class="mb-30"/>
+        {% endif %}
 	
         {% set flashTicket = app.flashes('ticket')|first %}
         {% if not flashTicket %}
