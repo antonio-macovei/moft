@@ -158,6 +158,11 @@ class BookingController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Booking::class);
         $booking = $repository->find($booking_id);
 
+        if(!$booking) {
+            $this->addFlash('error', 'Biletul pe care încerci să îl anulezi nu a fost găsit, încearcă din nou!');
+            return $this->redirectToRoute('my_account');
+        }
+
         $ticket = $booking->getTicket();
         
         // Remove the booking from the DB
@@ -176,6 +181,11 @@ class BookingController extends AbstractController
         // Get the requested booking
         $repository = $this->getDoctrine()->getRepository(Booking::class);
         $booking = $repository->find($booking_id);
+
+        if(!$booking) {
+            $this->addFlash('error', 'Booking not found!');
+            return $this->redirectToRoute('user_list');
+        }
 
         $ticket = $booking->getTicket();
         $original_user_id = $booking->getUser()->getId();
