@@ -64,7 +64,7 @@ class User extends BaseUser
     private $faculty;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=50)
      */
     private $studentId;
 
@@ -209,12 +209,12 @@ class User extends BaseUser
         return $this;
     }
 
-    public function getStudentId(): ?int
+    public function getStudentId(): ?string
     {
         return $this->studentId;
     }
 
-    public function setStudentId(int $studentId): self
+    public function setStudentId(string $studentId): self
     {
         $this->studentId = $studentId;
 

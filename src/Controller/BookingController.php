@@ -80,7 +80,7 @@ class BookingController extends AbstractController
         $sameCategoryWaitings = $waitingListRepo->findBy(['user' => $this->getUser()->getId()]);
         if($sameCategoryBookings) {
             foreach($sameCategoryBookings as $sameCategoryBooking) {
-                if($sameCategoryBooking->getTicket()->getCategory() == $ticket->getCategory()) {
+                if($sameCategoryBooking->getTicket()->getCategory() == $ticket->getCategory() && $ticket->getMaxTickets() != 999 && $sameCategoryBooking->getTicket()->getMaxTickets() != 999) {
                     $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
                     $this->addFlash('ticket', $ticket->getId());
                     return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
@@ -89,7 +89,7 @@ class BookingController extends AbstractController
         }
         if($sameCategoryWaitings) {
             foreach($sameCategoryWaitings as $sameCategoryWaiting) {
-                if($sameCategoryWaiting->getTicket()->getCategory() == $ticket->getCategory()) {
+                if($sameCategoryWaiting->getTicket()->getCategory() == $ticket->getCategory() && $ticket->getMaxTickets() != 999 && $sameCategoryWaiting->getTicket()->getMaxTickets() != 999) {
                     $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
                     $this->addFlash('ticket', $ticket->getId());
                     return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
