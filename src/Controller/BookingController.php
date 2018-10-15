@@ -74,29 +74,31 @@ class BookingController extends AbstractController
         }
 
         // Checks - booking twice in the same category
-        $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
-        $sameCategoryBookings = $bookingRepo->findBy(['user' => $this->getUser()->getId()]);
-        $waitingListRepo = $this->getDoctrine()->getRepository(WaitingList::class);
-        $sameCategoryWaitings = $waitingListRepo->findBy(['user' => $this->getUser()->getId()]);
-        if($sameCategoryBookings) {
-            foreach($sameCategoryBookings as $sameCategoryBooking) {
-                if($sameCategoryBooking->getTicket()->getCategory() == $ticket->getCategory() && $ticket->getMaxTickets() != 999 && $sameCategoryBooking->getTicket()->getMaxTickets() != 999) {
-                    $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
-                    $this->addFlash('ticket', $ticket->getId());
-                    return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
+        if(!$ticket->getCategory()->getAllowMultiple()) {
+            $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
+            $sameCategoryBookings = $bookingRepo->findBy(['user' => $this->getUser()->getId()]);
+            $waitingListRepo = $this->getDoctrine()->getRepository(WaitingList::class);
+            $sameCategoryWaitings = $waitingListRepo->findBy(['user' => $this->getUser()->getId()]);
+            if($sameCategoryBookings) {
+                foreach($sameCategoryBookings as $sameCategoryBooking) {
+                    if($sameCategoryBooking->getTicket()->getCategory() == $ticket->getCategory() && $ticket->getMaxTickets() != 999 && $sameCategoryBooking->getTicket()->getMaxTickets() != 999) {
+                        $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
+                        $this->addFlash('ticket', $ticket->getId());
+                        return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
+                    }
+                }
+            }
+            if($sameCategoryWaitings) {
+                foreach($sameCategoryWaitings as $sameCategoryWaiting) {
+                    if($sameCategoryWaiting->getTicket()->getCategory() == $ticket->getCategory() && $ticket->getMaxTickets() != 999 && $sameCategoryWaiting->getTicket()->getMaxTickets() != 999) {
+                        $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
+                        $this->addFlash('ticket', $ticket->getId());
+                        return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
+                    }
                 }
             }
         }
-        if($sameCategoryWaitings) {
-            foreach($sameCategoryWaitings as $sameCategoryWaiting) {
-                if($sameCategoryWaiting->getTicket()->getCategory() == $ticket->getCategory() && $ticket->getMaxTickets() != 999 && $sameCategoryWaiting->getTicket()->getMaxTickets() != 999) {
-                    $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
-                    $this->addFlash('ticket', $ticket->getId());
-                    return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
-                }
-            }
-        }
-
+        
         // Checks - no tickets left
         $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
         $countBookings = $bookingRepo->countAllForTicket($ticket);

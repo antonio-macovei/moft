@@ -30,6 +30,11 @@ class Category
      */
     private $tickets;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $allowMultiple = 0;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -79,6 +84,18 @@ class Category
                 $ticket->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAllowMultiple(): ?int
+    {
+        return $this->allowMultiple;
+    }
+
+    public function setAllowMultiple(int $allowMultiple): self
+    {
+        $this->allowMultiple = $allowMultiple;
 
         return $this;
     }
