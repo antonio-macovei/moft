@@ -21,6 +21,15 @@
                                 <span class="form-error">{{ form_errors(form.name) }}</span>
                             </div>
                         </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                {{ form_label(form.allowMultiple) }}
+                            </div>
+                            <div class="col-12 col-md-9">
+                                {{ form_widget(form.allowMultiple, {'attr': {'class': 'form-control'}}) }}
+                                <span class="form-error">{{ form_errors(form.allowMultiple) }}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer clearfix">
                         {{ form_widget(form.save, {'attr': {'class': 'btn btn-success btn-sm float-right'}}) }}
