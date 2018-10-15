@@ -83,7 +83,7 @@ class TicketsController extends AbstractController
         $user = $repository->find($user_id);
         if(!$user) {
             $this->addFlash('error', 'User not found!');
-            return $this->redirectToRoute('ticket_list');
+            return $this->redirectToRoute('user_list');
         }
 
         $repository = $this->getDoctrine()->getRepository(Booking::class);

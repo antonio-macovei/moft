@@ -5,6 +5,7 @@ use App\Entity\Booking;
 use App\Entity\Ticket;
 use App\Entity\User;
 use App\Entity\WaitingList;
+use App\Entity\Blacklist;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,6 +55,15 @@ class BookingController extends AbstractController
             return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
         }
 
+        // Checks - user is on blacklist
+        $blacklistRepo = $this->getDoctrine()->getRepository(Blacklist::class);
+        $blacklist = $blacklistRepo->findOneBy(['user' => $this->getUser()->getId()]);
+        if($blacklist) {
+            $this->addFlash('error', 'Te afli pe lista neagră, nu poți rezerva bilete!');
+            $this->addFlash('ticket', $ticket->getId());
+            return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
+        }
+
         // Checks - booking already exists
         $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
         $sameTicket = $bookingRepo->findOneBy(['user' => $this->getUser()->getId(), 'ticket' => $ticket]);
@@ -61,6 +71,30 @@ class BookingController extends AbstractController
             $this->addFlash('error', 'Ai mai rezervat acest bilet o dată!');
             $this->addFlash('ticket', $ticket->getId());
             return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
+        }
+
+        // Checks - booking twice in the same category
+        $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
+        $sameCategoryBookings = $bookingRepo->findBy(['user' => $this->getUser()->getId()]);
+        $waitingListRepo = $this->getDoctrine()->getRepository(WaitingList::class);
+        $sameCategoryWaitings = $waitingListRepo->findBy(['user' => $this->getUser()->getId()]);
+        if($sameCategoryBookings) {
+            foreach($sameCategoryBookings as $sameCategoryBooking) {
+                if($sameCategoryBooking->getTicket()->getCategory() == $ticket->getCategory()) {
+                    $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
+                    $this->addFlash('ticket', $ticket->getId());
+                    return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
+                }
+            }
+        }
+        if($sameCategoryWaitings) {
+            foreach($sameCategoryWaitings as $sameCategoryWaiting) {
+                if($sameCategoryWaiting->getTicket()->getCategory() == $ticket->getCategory()) {
+                    $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
+                    $this->addFlash('ticket', $ticket->getId());
+                    return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
+                }
+            }
         }
 
         // Checks - no tickets left
@@ -78,19 +112,6 @@ class BookingController extends AbstractController
             return $this->redirect($this->generateUrl('waiting_list_add', array('user_id' => $this->getUser()->getId(), 'ticket_id' => $ticket->getId())));
         }
 
-        // Checks - booking twice in the same category
-        $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
-        $sameCategoryBookings = $bookingRepo->findBy(['user' => $this->getUser()->getId()]);
-        if($sameCategoryBookings) {
-            foreach($sameCategoryBookings as $sameCategoryBooking) {
-                if($sameCategoryBooking->getTicket()->getCategory() == $ticket->getCategory()) {
-                    $this->addFlash('error', 'Ai mai rezervat un bilet din această categorie!');
-                    $this->addFlash('ticket', $ticket->getId());
-                    return $this->redirectToRoute('tickets', ['_fragment' => $anchor]);
-                }
-            }
-        }
-
         // Create the booking
         $user = $this->getUser();
         $booking = new Booking();
@@ -104,7 +125,7 @@ class BookingController extends AbstractController
         $entityManager->persist($booking);
         $entityManager->flush();
 
-        $from = "moft@lsacbucuresti.ro";
+        $from = "no-reply@lsacbucuresti.ro";
         $to = $this->getUser()->getEmail();
         $subject = 'MOFT - Confirmare rezervare';
         $message = 'Biletul tau la ' . $ticket->getName() . '';
@@ -129,7 +150,7 @@ class BookingController extends AbstractController
     /**
      * @Route("/account/cancel/{booking_id}", name="my_ticket_remove")
      */
-    public function ticket_remove($booking_id)
+    public function my_ticket_remove($booking_id)
     {
         // Get the requested booking
         $repository = $this->getDoctrine()->getRepository(Booking::class);
@@ -143,5 +164,25 @@ class BookingController extends AbstractController
         $entityManager->flush();
 
         return $this->redirect($this->generateUrl('waiting_list_move', array('ticket_id' => $ticket->getId())));
+    }
+
+    /**
+     * @Route("/admin/cancel/{booking_id}", name="admin_ticket_remove")
+     */
+    public function admin_ticket_remove($booking_id)
+    {
+        // Get the requested booking
+        $repository = $this->getDoctrine()->getRepository(Booking::class);
+        $booking = $repository->find($booking_id);
+
+        $ticket = $booking->getTicket();
+        $original_user_id = $booking->getUser()->getId();
+        
+        // Remove the booking from the DB
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($booking);
+        $entityManager->flush();
+
+        return $this->redirect($this->generateUrl('admin_waiting_list_move', array('ticket_id' => $ticket->getId(), 'original_user_id' => $original_user_id)));
     }
 }

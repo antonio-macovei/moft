@@ -54,6 +54,9 @@
                                 </td>
                                 <td>
                                     <div class="table-data-feature">
+                                        <a href="{{ path('list_user_tickets', {'user_id': user.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="View his tickets">
+                                            <i class="zmdi zmdi-ticket-star"></i>
+                                        </a>
                                         <a href="{{ path('blacklist_add', {'user_id': user.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Add to blacklist">
                                             <i class="zmdi zmdi-file-plus"></i>
                                         </a>

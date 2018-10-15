@@ -113,6 +113,61 @@ class WaitingListController extends AbstractController
     }
 
     /**
+     * @Route("/admin/waiting-list/move/{ticket_id}/{original_user_id}", name="admin_waiting_list_move")
+     */
+    public function admin_waiting_list_move($ticket_id, $original_user_id, \Swift_Mailer $mailer)
+    {
+        // Get requested ticket
+        $ticketRepo = $this->getDoctrine()->getRepository(Ticket::class);
+        $ticket = $ticketRepo->find($ticket_id);
+
+        // Get requested user
+        $waitingListRepo = $this->getDoctrine()->getRepository(WaitingList::class);
+        $waitingSlots = $waitingListRepo->findBy(array('ticket' => $ticket), array('time' => "DESC"));
+        if(!$waitingSlots || count($waitingSlots) == 0) {
+            // There are no users on the waiting list so nothing to be done
+            // Return success message
+            $this->addFlash('success', 'His booking was successfully removed!');
+            return $this->redirect($this->generateUrl('list_user_tickets', array('user_id' => $original_user_id)));
+        }
+
+        $slot = reset($waitingSlots); // Get the first in the waiting list
+
+        // Create the booking
+        $booking = new Booking();
+        $booking->setTicket($slot->getTicket());
+        $booking->setUser($slot->getUser());
+        $booking->setCode($slot->getCode());
+        $booking->setTime(new \DateTime());
+
+        // Save the new booking in DB
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($booking);
+        $entityManager->remove($slot);
+        $entityManager->flush();
+
+        // Send confirmation email
+        $from = "moft@lsacbucuresti.ro";
+        $to = $slot->getUser()->getEmail();
+        $subject = 'MOFT - Confirmare rezervare (lista de așteptare)';
+        $mail = (new \Swift_Message($subject))
+            ->setFrom($from)
+            ->setTo($to)
+            ->setBody(
+                $this->renderView(
+                    'emails/booking_confirmation_from_waiting.html.twig',
+                    array('ticket' => $ticket, 'confirmation' => $booking->getCode())
+                ),
+                'text/html'
+            );
+        $mailer->send($mail);
+
+        // Return success message
+        $this->addFlash('success', 'His booking was successfully removed and the waiting list was updated!');
+        return $this->redirect($this->generateUrl('list_user_tickets', array('user_id' => $original_user_id)));
+    }
+
+    /**
      * @Route("/waiting-list/cancel/{waiting_id}", name="waiting_list_remove")
      */
     public function waiting_list_remove($waiting_id)

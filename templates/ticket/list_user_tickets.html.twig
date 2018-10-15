@@ -7,6 +7,16 @@
     <div class="row">
         <div class="col-md-12">
             <h3 class="title-5 m-b-35" style="text-transform:none">{{ user.firstName }} {{ user.lastName }} ({{ user.email }})</h3>
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
             <div class="table-responsive table-responsive-data2">
                 <h4 class="title-5 m-b-35 text-center">Tickets</h4>
                 <table class="table table-data2">
@@ -15,6 +25,7 @@
                             <th>ticket</th>
                             <th>category</th>
                             <th>date</th>
+                            <th>options</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,6 +34,13 @@
                                 <td>{{ booking.ticket.name }}</td>
                                 <td>{{ booking.ticket.category.name }}</td>
                                 <td>{{ booking.ticket.time|date('d.m.Y H:i') }}</td>
+                                <td>
+                                    <div class="table-data-feature">
+                                         <a href="{{ path('admin_ticket_remove', {'booking_id': booking.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Remove">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="spacer"></tr>
                         {% endfor %}
@@ -32,18 +50,25 @@
                 <table class="table table-data2">
                     <thead>
                         <tr>
-                            <th>name</th>
-                            <th>email</th>
+                            <th>ticket</th>
                             <th>category</th>
                             <th>date</th>
+                            <th>options</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for waiting in waitings %}
                             <tr class="tr-shadow">
-                                <td>{{ booking.ticket.name }}</td>
-                                <td>{{ booking.ticket.category.name }}</td>
-                                <td>{{ booking.ticket.time|date('d.m.Y H:i') }}</td>
+                                <td>{{ waiting.ticket.name }}</td>
+                                <td>{{ waiting.ticket.category.name }}</td>
+                                <td>{{ waiting.ticket.time|date('d.m.Y H:i') }}</td>
+                                <td>
+                                    <div class="table-data-feature">
+                                         <a href="{{ path('admin_waiting_list_remove', {'waiting_id': waiting.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Remove">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                             <tr class="spacer"></tr>
                         {% endfor %}
