@@ -94,7 +94,7 @@ class RegistrationType extends AbstractType
                 
             ))
             ->add('GDPR', CheckboxType::class, array(
-                'label'    => 'Ești de acord cu prelucrarea datelor personale? *',
+                'label'    => 'Sunt de acord cu prelucrarea datelor personale? *',
                 'required' => true,
                 'mapped' => false,
                 'attr' => array('class' => 'input-md round form-control checkbox')
