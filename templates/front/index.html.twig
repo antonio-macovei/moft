@@ -109,7 +109,7 @@
                     </p>
                     
                     <div class="mt-40">
-                        <a href="/tickets" class="btn btn-mod btn-border btn-round btn-medium" target="_blank">Rezervă bilete</a>
+                        <a href="{{ path('tickets') }}" class="btn btn-mod btn-border btn-round btn-medium" target="_blank">Rezervă bilete</a>
                     </div>
                     
                 </div>
@@ -140,7 +140,9 @@
             <div class="col-md-3 col-lg-3 mb-md-10">
                 
                 <div class="post-prev-img">
-                    <a href="/front/images/featured/museum.jpg" class="lightbox-gallery-2 mfp-image"><img src="/front/images/featured/museum.jpg" alt="" /></a>
+                    <a href="{{ path('tickets', {'_fragment': 'muzeu'}) }}" class="mfp-image">
+                        <img src="/front/images/featured/muzeu.jpg" alt="" />
+                    </a>
                 </div>
 
             </div>
@@ -150,7 +152,9 @@
             <div class="col-md-3 col-lg-3 mb-md-10">
                 
                 <div class="post-prev-img">
-                    <a href="/front/images/featured/opera.jpg" class="lightbox-gallery-2 mfp-image"><img src="/front/images/featured/opera.jpg" alt="" /></a>
+                    <a href="{{ path('tickets', {'_fragment': 'opera'}) }}" class="mfp-image">
+                        <img src="/front/images/featured/opera.jpg" alt="" />
+                    </a>
                 </div>
 
             </div>
@@ -160,7 +164,9 @@
             <div class="col-md-3 col-lg-3 mb-md-10">
                 
                 <div class="post-prev-img">
-                    <a href="/front/images/featured/film.jpg" class="lightbox-gallery-2 mfp-image"><img src="/front/images/featured/film.jpg" alt="" /></a>
+                    <a href="{{ path('tickets', {'_fragment': 'film'}) }}" class="mfp-image">
+                        <img src="/front/images/featured/film.jpg" alt="" />
+                    </a>
                 </div>
 
             </div>
@@ -170,7 +176,9 @@
             <div class="col-md-3 col-lg-3 mb-md-10">
                 
                 <div class="post-prev-img">
-                    <a href="/front/images/featured/theatre.jpg" class="lightbox-gallery-2 mfp-image"><img src="/front/images/featured/theatre.jpg" alt="" /></a>
+                    <a href="{{ path('tickets', {'_fragment': 'teatru'}) }}" class="mfp-image">
+                        <img src="/front/images/featured/teatru.jpg" alt="" />
+                    </a>
                 </div>
 
             </div>
@@ -201,27 +209,21 @@
             <hr class="mb-30"/>
         {% endif %}
         
-        <!-- Logo Grid -->
         <div class="row multi-columns-row alt-features-grid">
             {% for sponsor in sponsors %}
-                <!-- Logo Item -->
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="alt-features-item align-left">
                         <div class="alt-features-icon">
                             <img src="/front/images/sponsors/{{ sponsor.name|lower|replace({' ': '-'}) }}" alt="" />
                         </div>
                         <h3 class="alt-features-title font-alt">{{ sponsor.name }}</h3>
-                        <!--<div class="alt-features-descr align-left">
-                            Lorem ipsum dolor sit amet, c-r adipiscing elit. 
-                            In maximus ligula semper metus pellentesque mattis. 
-                            Maecenas  volutpat, diam enim.
-                        </div>-->
+                        <div class="alt-features-descr align-left">
+                            {{ sponsor.description }}
+                        </div>
                     </div>
                 </div>
-                <!-- End Logo Item -->
             {% endfor %}
         </div>
-        <!-- End Logo Grid -->
         
     </div>
 </section>

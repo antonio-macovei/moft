@@ -33,6 +33,7 @@
         {% for ticket in tickets %}
             {% if prevCategory != ticket.category.id %}
                 {% set prevCategory = ticket.category.id %}
+                <a class="anchorAdjusted" id="{{ ticket.category.name|lower|replace({' ': '-'}) }}"></a>
                 <h1 class="align-center mb-10">{{ ticket.category.name }}</h1>
                 <!-- Divider -->
                 <hr class="mt-20 mb-20 "/>
@@ -43,7 +44,7 @@
                 
                 <div class="col-md-5 col-lg-4 mb-sm-40">
                     
-                    <img src="/front/images/featured/museum.jpg" alt="" />
+                    <img src="/front/images/featured/{{ ticket.category.name|lower }}.jpg" alt="" />
                     
                 </div>
                 
