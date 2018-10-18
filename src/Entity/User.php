@@ -27,9 +27,12 @@ class User extends BaseUser
      * @Assert\Length(
      *      min = 10,
      *      max = 10,
-     *      minMessage = "Your first name must be at least {{ limit }} characters long",
-     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     *      minMessage = "Numărul de telefon trebuie sa aibe exact {{ limit }} 10 caractere!",
+     *      maxMessage = "Numărul de telefon trebuie sa aibe exact {{ limit }} 10 caractere!"
      * )
+     * @Assert\Regex(
+     *      pattern = "/^[0-9]*$/",
+     *      message = "Numărul de telefon trebuie să conțină doar cifre!") 
      */
     private $phone;
 

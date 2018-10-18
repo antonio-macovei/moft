@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class FrontController extends AbstractController
 {
@@ -21,6 +22,8 @@ class FrontController extends AbstractController
      */
     public function index()
     {
+        $session = new Session();
+        $session->getFlashBag()->clear();
         $repository = $this->getDoctrine()->getRepository(Sponsor::class);
         $sponsors = $repository->findAll();
         return $this->render('front/index.html.twig', [
@@ -33,6 +36,8 @@ class FrontController extends AbstractController
      */
     public function tickets()
     {
+        $session = new Session();
+        $session->getFlashBag()->clear();
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
         $tickets = $repository->findBy([], ['category' => 'ASC']);
 
@@ -63,6 +68,8 @@ class FrontController extends AbstractController
      */
     public function contact(Request $request, \Swift_Mailer $mailer)
     {
+        $session = new Session();
+        $session->getFlashBag()->clear();
         $form = $this->createFormBuilder()
             ->add('email', TextType::class, array(
                 'attr' => array('placeholder' => 'Email'),

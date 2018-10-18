@@ -74,10 +74,6 @@
                                 </li>
                             {% endif %}
                             
-                            <!-- Divider -->
-                            <li><a>&nbsp;</a></li>
-                            <!-- End Divider -->
-                            
                             {% if is_granted("ROLE_USER") %}
                                 <li><a>Salut, {{ app.user.firstName }}!</a></li>
                                 <li>
