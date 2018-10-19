@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Booking;
+use App\Entity\WaitingList;
 use App\Form\UserType;
 use App\Form\User2Type;
 
@@ -96,6 +98,15 @@ class UserController extends AbstractController
 
         if(!$user) {
             $this->addFlash('error', 'User not found!');
+            return $this->redirectToRoute('user_list');
+        }
+
+        $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
+        $bookings = $bookingRepo->findOneBy(['user' => $this->getUser()->getId()]);
+        $waitingRepo = $this->getDoctrine()->getRepository(WaitingList::class);
+        $waitings = $waitingRepo->findOneBy(['user' => $this->getUser()->getId()]);
+        if($bookings || $waitings) {
+            $this->addFlash('error', 'This user has active tickets or he is on waiting lists. Remove them before deleting him!');
             return $this->redirectToRoute('user_list');
         }
 

@@ -24,11 +24,6 @@ class Sponsor
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
-    private $logo;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="sponsor")
      */
     private $tickets;
@@ -37,6 +32,11 @@ class Sponsor
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $link;
 
     public function __construct()
     {
@@ -56,18 +56,6 @@ class Sponsor
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    public function setLogo(?string $logo): self
-    {
-        $this->logo = $logo;
 
         return $this;
     }
@@ -111,6 +99,18 @@ class Sponsor
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
 
         return $this;
     }

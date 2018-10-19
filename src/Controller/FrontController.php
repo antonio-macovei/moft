@@ -52,9 +52,9 @@ class FrontController extends AbstractController
     }
 
     /**
-     * @Route("/sponsors", name="sponsors")
+     * @Route("/parteners", name="parteners")
      */
-    public function sponsors()
+    public function parteners()
     {
         $repository = $this->getDoctrine()->getRepository(Sponsor::class);
         $sponsors = $repository->findAll();

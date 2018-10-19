@@ -10,35 +10,31 @@
         <!-- Heading -->
         <div class="row mb-xs-30">
             <div class="col mb-40 align-center">
-                <h1>Sponsori</h1>
+                <h1>Parteneri</h1>
             </div>
         </div>
         <!-- End Heading -->
         
         {% if not sponsors %}
             <hr class="mb-30"/>
-            <h4 class="font-alt mb-10 align-center">Nu există niciun sponsor încă</h4>
+            <h4 class="font-alt mb-10 align-center">Nu există niciun partener încă</h4>
             <hr class="mb-30"/>
         {% endif %}
 
         <!-- Logo Grid -->
         <div class="row multi-columns-row alt-features-grid">
-            {% for sponsor in sponsors %}
-                <!-- Logo Item -->
+                {% for sponsor in sponsors %}
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <div class="alt-features-item align-left">
                         <div class="alt-features-icon">
-                            <img src="/front/images/sponsors/{{ sponsor.name|lower|replace({' ': '-'}) }}" alt="" />
+                            <img src="/front/images/sponsors/{{ sponsor.name|lower|replace({' ': '-'}) }}.png" alt="" class="sponsor-img" />
                         </div>
                         <h3 class="alt-features-title font-alt">{{ sponsor.name }}</h3>
-                        <!--<div class="alt-features-descr align-left">
-                            Lorem ipsum dolor sit amet, c-r adipiscing elit. 
-                            In maximus ligula semper metus pellentesque mattis. 
-                            Maecenas  volutpat, diam enim.
-                        </div>-->
+                        <div class="alt-features-descr align-left">
+                            {{ sponsor.description }}
+                        </div>
                     </div>
                 </div>
-                <!-- End Logo Item -->
             {% endfor %}
         </div>
         <!-- End Logo Grid -->

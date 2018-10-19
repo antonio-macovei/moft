@@ -60,7 +60,12 @@
                                 <small>({{ ticket.maxTickets - bookingRepo.countAllForTicket(ticket) }} {{ ticket.maxTickets - bookingRepo.countAllForTicket(ticket) == 1 ? 'bilet rămas' : 'bilete rămase' }})</small></small>
                             {% endif %}
                         </h3>
-                        <p>{{ ticket.time|date('d.m.Y H:m') }}</p>
+                        <p>
+                            {{ ticket.time|date('d.m.Y H:m') }}
+                            {% if ticket.sponsor %}
+                                <br />Bilet oferit de: {{ ticket.sponsor.name }}
+                            {% endif %}
+                        </p>
                         {% set disabled = '' %}
                         {% set disabledReason = '' %}
                         {% if not is_granted("ROLE_USER") %}

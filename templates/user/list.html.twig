@@ -2,20 +2,21 @@
 
 {% block title %}M.O.F.T - Admin Panel{% endblock %}
 
-{% block header %}
-<form class="form-header" action="" method="POST">
-    <input class="au-input au-input--xl" type="text" name="search" placeholder="Search" />
-    <button class="au-btn--submit" type="submit">
-        <i class="zmdi zmdi-search"></i>
-    </button>
-</form>
-{% endblock %}
-
 {% block body %}
 
     <div class="row">
         <div class="col-md-12">
             <h3 class="title-5 m-b-35">User Management</h3>
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger" role="alert">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
             <div class="table-responsive table-responsive-data2">
                 <table class="table table-data2">
                     <thead>

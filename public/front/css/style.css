@@ -6485,3 +6485,14 @@ a.disabled {
 .alert {
     font-weight:bold;
 }
+
+.alt-features-icon {
+    height: 180px;
+}
+
+.sponsor-img {
+    display: block;
+    max-height:180px;
+    max-width:50% !important;
+    margin: auto;
+}

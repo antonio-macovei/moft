@@ -15,6 +15,7 @@ class SponsorType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('description', TextType::class)
+            ->add('link', TextType::class)
         ;
     }
 
