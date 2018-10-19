@@ -3149,6 +3149,7 @@ a.logo:hover{
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.4em;
+    text-align:center;
 }
 .alt-features-descr {
     color: #777;
