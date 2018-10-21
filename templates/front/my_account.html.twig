@@ -61,7 +61,7 @@
                     <div class="col-md-8 col-md-offset-2">
                         <hr class="mb-30"/>
                         <h3 class="font-alt mb-10">{{ booking.ticket.name }}</h3>
-                        <p>{{ booking.ticket.time|date('d.m.Y H:m') }}</p>
+                        <p>{{ booking.ticket.time|date('d.m.Y H:i') }}</p>
                         <div class="right mt-0">
                             <a href="{{ path('my_ticket_remove', { 'booking_id': booking.id }) }}" class="btn btn-mod btn-border btn-round btn-medium">Anulare bilet</a>
                         </div>
@@ -88,7 +88,7 @@
                     <div class="col-md-8 col-md-offset-2">
                         <hr class="mb-30"/>
                         <h3 class="font-alt mb-10">{{ waiting.ticket.name }}</h3>
-                        <p>{{ waiting.ticket.time|date('d.m.Y H:m') }}</p>
+                        <p>{{ waiting.ticket.time|date('d.m.Y H:i') }}</p>
                         <div class="right mt-0">
                             <a href="{{ path('waiting_list_remove', { 'waiting_id': waiting.id }) }}" class="btn btn-mod btn-border btn-round btn-medium">Renunță</a>
                         </div>

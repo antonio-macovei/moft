@@ -61,7 +61,7 @@
                             {% endif %}
                         </h3>
                         <p>
-                            {{ ticket.time|date('d.m.Y H:m') }}
+                            {{ ticket.time|date('d.m.Y H:i') }}
                             {% if ticket.sponsor %}
                                 <br />Bilet oferit de: {{ ticket.sponsor.name }}
                             {% endif %}
