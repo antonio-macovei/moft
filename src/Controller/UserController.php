@@ -102,9 +102,9 @@ class UserController extends AbstractController
         }
 
         $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
-        $bookings = $bookingRepo->findOneBy(['user' => $this->getUser()->getId()]);
+        $bookings = $bookingRepo->findOneBy(['user' => $user->getId()]);
         $waitingRepo = $this->getDoctrine()->getRepository(WaitingList::class);
-        $waitings = $waitingRepo->findOneBy(['user' => $this->getUser()->getId()]);
+        $waitings = $waitingRepo->findOneBy(['user' => $user->getId()]);
         if($bookings || $waitings) {
             $this->addFlash('error', 'This user has active tickets or he is on waiting lists. Remove them before deleting him!');
             return $this->redirectToRoute('user_list');
@@ -114,7 +114,7 @@ class UserController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
     
-        // de afisat mesaj
+        $this->addFlash('success', 'User deleted successfully!');
         return $this->redirectToRoute('user_list');
     }
 }
