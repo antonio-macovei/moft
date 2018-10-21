@@ -18,8 +18,6 @@ class BookingController extends AbstractController
      */
     public function my_account()
     {
-        $session = new Session();
-        $session->getFlashBag()->clear();
         $user = $this->getUser();
         $repository = $this->getDoctrine()->getRepository(Booking::class);
         $bookings = $repository->findBy(array("user" => $user));
@@ -38,9 +36,6 @@ class BookingController extends AbstractController
      */
     public function ticket_book($ticket_id, \Swift_Mailer $mailer)
     {
-        $session = new Session();
-        $session->getFlashBag()->clear();
-        
         // Get requested ticket
         $ticketRepo = $this->getDoctrine()->getRepository(Ticket::class);
         $ticket = $ticketRepo->find($ticket_id);

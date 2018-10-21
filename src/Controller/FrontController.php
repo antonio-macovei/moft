@@ -22,8 +22,6 @@ class FrontController extends AbstractController
      */
     public function index()
     {
-        $session = new Session();
-        $session->getFlashBag()->clear();
         $repository = $this->getDoctrine()->getRepository(Sponsor::class);
         $sponsors = $repository->findAll();
         return $this->render('front/index.html.twig', [
@@ -36,8 +34,6 @@ class FrontController extends AbstractController
      */
     public function tickets()
     {
-        $session = new Session();
-        $session->getFlashBag()->clear();
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
         $tickets = $repository->findBy([], ['category' => 'ASC']);
 
@@ -68,8 +64,6 @@ class FrontController extends AbstractController
      */
     public function contact(Request $request, \Swift_Mailer $mailer)
     {
-        $session = new Session();
-        $session->getFlashBag()->clear();
         $form = $this->createFormBuilder()
             ->add('email', TextType::class, array(
                 'attr' => array('placeholder' => 'Email'),
@@ -90,12 +84,12 @@ class FrontController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $to = "antoniomacovei@yahoo.com"; // de pus moft@lsacbucuresti.ro
+            $to = "moft@lsacbucuresti.ro";
 
             $data = $form->getData();
             $from = $data['email'];
             $subject = $data['subject'];
-            $message = $data['message'];
+            $message = $data['message'] . "\n\nTrimis de: ". $data['email'];
 
             $mail = (new \Swift_Message($subject))
             ->setFrom($from)
