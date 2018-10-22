@@ -14,6 +14,7 @@
                         <tr>
                             <th>name</th>
                             <th>email</th>
+                            <th>phone</th>
                             <th>date</th>
                         </tr>
                     </thead>
@@ -22,6 +23,7 @@
                             <tr class="tr-shadow">
                                 <td>{{ booking.user.firstName }} {{ booking.user.lastName }}</td>
                                 <td>{{ booking.user.email }}</td>
+                                <td>{{ booking.user.phone }}</td>
                                 <td>{{ booking.ticket.time|date('d.m.Y H:i') }}</td>
                             </tr>
                             <tr class="spacer"></tr>
@@ -34,6 +36,7 @@
                         <tr>
                             <th>name</th>
                             <th>email</th>
+                            <th>phone</th>
                             <th>date</th>
                         </tr>
                     </thead>
@@ -41,7 +44,8 @@
                         {% for waiting in waitings %}
                             <tr class="tr-shadow">
                                 <td>{{ waiting.user.firstName }} {{ waiting.user.lastName }}</td>
-                                <td>{{waiting.user.email }}</td>
+                                <td>{{ waiting.user.email }}</td>
+                                <th>{{ waitinh.user.phone }}</th>
                                 <td>{{ waiting.ticket.time|date('d.m.Y H:i') }}</td>
                             </tr>
                             <tr class="spacer"></tr>
