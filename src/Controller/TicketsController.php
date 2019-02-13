@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Response;
 
 class TicketsController extends AbstractController
 {
@@ -173,6 +174,79 @@ class TicketsController extends AbstractController
         $this->addFlash('success', 'Ticket \'' . $oldName . '\' removed successfully!');
 
         return $this->redirectToRoute('ticket_list');
+    }
+
+    /**
+     * @Route("/admin/tickets/switch/{ticket_id}", name="ticket_switch")
+     */
+    public function ticket_switch($ticket_id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Ticket::class);
+        $ticket = $repository->find($ticket_id);
+
+        if(!$ticket) {
+            $this->addFlash('error', 'Ticket not found!');
+            return $this->redirectToRoute('ticket_list');
+        }
+
+        $oldAvailability = $ticket->getAvailable();
+        $ticket->setAvailable(!$oldAvailability);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        if($oldAvailability) {
+            $this->addFlash('error', 'Ticket \'' . $ticket->getName() . '\' is now NOT AVAILABLE!');
+        } else {
+            $this->addFlash('success', 'Ticket \'' . $ticket->getName() . '\' is now AVAILABLE!');
+        }
+
+        return $this->redirectToRoute('ticket_list');
+    }
+
+    /**
+     * @Route("/admin/tickets/download/{ticket_id}/ticket-users.csv")
+     */
+    /**
+     * @Route("/admin/tickets/download/{ticket_id}/ticket-users.csv", name="download_users_for_ticket")
+     */
+    public function download_users_for_ticket($ticket_id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Ticket::class);
+        $ticket = $repository->find($ticket_id);
+        if(!$ticket) {
+            $this->addFlash('error', 'Ticket not found!');
+            return $this->redirectToRoute('ticket_list');
+        }
+
+        $repository = $this->getDoctrine()->getRepository(Booking::class);
+        $bookings = $repository->findBy(array('ticket' => $ticket));
+
+        $repository = $this->getDoctrine()->getRepository(WaitingList::class);
+        $waitings = $repository->findBy(array('ticket' => $ticket));
+
+        $rows = array();
+        $data = array("ID", "Nume spectacol", "Nume", "Prenume", "Telefon", "Universitate", "Facultate", "ID Student", "Facebook");
+        $rows[] = implode(',', $data);
+        
+        foreach ($bookings as $booking) {
+            $data = array($booking->getId(),
+                            $booking->getTicket()->getName(),
+                            $booking->getUser()->getLastName(),
+                            $booking->getUser()->getFirstName(),
+                            $booking->getUser()->getPhone(),
+                            $booking->getUser()->getUniversity(),
+                            $booking->getUser()->getFaculty(),
+                            $booking->getUser()->getStudentId(),
+                            $booking->getUser()->getFacebook());
+            $rows[] = implode(',', $data);
+        }
+
+        $content = implode("\n", $rows);
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+
+        return $response;
     }
 
 }

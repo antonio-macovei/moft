@@ -39,7 +39,8 @@
                     <tbody>
                         {% for ticket in tickets %}
                             <tr class="tr-shadow">
-                                <td>{{ ticket.name }}</td>
+                                <td>{% if ticket.available %} <i class="zmdi zmdi-check-circle" style="color: #00e600"></i> {% else %} <i class="zmdi zmdi-minus-circle" style="color: #ff0000"></i> {% endif %} 
+                                    &nbsp;&nbsp;{{ ticket.name }} </td>
                                 <td><span class="block-email">{{ ticket.category.name }}</span></td>
                                 <td class="desc">{{ ticket.sponsor ? ticket.sponsor.name : "N/A" }}</td>
                                 <td>{{ ticket.time|date('d.m.Y H:i') }}</td>
@@ -54,6 +55,9 @@
                                     <a href="{{ path('list_ticket_users', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="View">
                                         <i class="zmdi zmdi-link"></i>
                                     </a>
+                                    <a href="{{ path('download_users_for_ticket', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Download">
+                                        <i class="zmdi zmdi-download"></i>
+                                    </a>
                                 </td>
                                 <td>
                                     <div class="table-data-feature">
@@ -62,6 +66,9 @@
                                         </a>
                                          <a href="{{ path('ticket_remove', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                             <i class="zmdi zmdi-delete"></i>
+                                        </a>
+                                        <a href="{{ path('ticket_switch', {'ticket_id': ticket.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Switch availability">
+                                                <i class="zmdi zmdi-spinner"></i>
                                         </a>
                                     </div>
                                 </td>

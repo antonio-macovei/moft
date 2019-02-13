@@ -8,14 +8,15 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181019095431 extends AbstractMigration
+final class Version20190213190617 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE sponsor ADD link VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE ticket ADD available TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE fos_user CHANGE university university VARCHAR(255) NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -23,6 +24,7 @@ final class Version20181019095431 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE sponsor DROP link');
+        $this->addSql('ALTER TABLE fos_user CHANGE university university VARCHAR(50) NOT NULL COLLATE utf8mb4_unicode_ci');
+        $this->addSql('ALTER TABLE ticket DROP available');
     }
 }

@@ -35,7 +35,7 @@ class FrontController extends AbstractController
     public function tickets()
     {
         $repository = $this->getDoctrine()->getRepository(Ticket::class);
-        $tickets = $repository->findBy([], ['category' => 'ASC']);
+        $tickets = $repository->findBy(['available' => true], ['category' => 'ASC']);
 
         $bookingRepo = $this->getDoctrine()->getRepository(Booking::class);
         $waitingListRepo = $this->getDoctrine()->getRepository(WaitingList::class);
