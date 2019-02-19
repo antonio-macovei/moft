@@ -23,7 +23,7 @@ class FrontController extends AbstractController
     public function index()
     {
         $repository = $this->getDoctrine()->getRepository(Sponsor::class);
-        $sponsors = $repository->findAll();
+        $sponsors = $repository->findBy(['available' => true]);
         return $this->render('front/index.html.twig', [
             'sponsors' => $sponsors,
         ]);

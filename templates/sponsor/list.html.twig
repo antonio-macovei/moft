@@ -35,7 +35,8 @@
                     <tbody>
                         {% for sponsor in sponsors %}
                             <tr class="tr-shadow">
-                                <td>{{ sponsor.name }}</td>
+                                <td>{% if sponsor.available %} <i class="zmdi zmdi-check-circle" style="color: #00e600"></i> {% else %} <i class="zmdi zmdi-minus-circle" style="color: #ff0000"></i> {% endif %} 
+                                    &nbsp;&nbsp;{{ sponsor.name }}</td>
                                 <td>{{ sponsor.description }}</td>
                                 <td>
                                     <div class="table-data-feature">
@@ -44,6 +45,9 @@
                                         </a>
                                          <a href="{{ path('sponsor_remove', {'sponsor_id': sponsor.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                             <i class="zmdi zmdi-delete"></i>
+                                        </a>
+                                        <a href="{{ path('sponsor_switch', {'sponsor_id': sponsor.id}) }}" class="item" data-toggle="tooltip" data-placement="top" title="Switch availability">
+                                            <i class="zmdi zmdi-spinner"></i>
                                         </a>
                                     </div>
                                 </td>

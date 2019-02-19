@@ -99,4 +99,32 @@ class SponsorController extends AbstractController
 
         return $this->redirectToRoute('sponsor_list');
     }
+
+    /**
+     * @Route("/admin/sponsors/switch/{sponsor_id}", name="sponsor_switch")
+     */
+    public function sponsor_switch($sponsor_id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Sponsor::class);
+        $sponsor = $repository->find($sponsor_id);
+
+        if(!$sponsor) {
+            $this->addFlash('error', 'Sponsor not found!');
+            return $this->redirectToRoute('sponsor_list');
+        }
+
+        $oldAvailability = $sponsor->getAvailable();
+        $sponsor->setAvailable(!$oldAvailability);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        if($oldAvailability) {
+            $this->addFlash('error', 'Sponsor \'' . $sponsor->getName() . '\' is now NOT AVAILABLE!');
+        } else {
+            $this->addFlash('success', 'Sponsor \'' . $sponsor->getName() . '\' is now AVAILABLE!');
+        }
+
+        return $this->redirectToRoute('sponsor_list');
+    }
 }

@@ -38,6 +38,11 @@ class Sponsor
      */
     private $link;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $available;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -111,6 +116,18 @@ class Sponsor
     public function setLink(?string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getAvailable(): ?bool
+    {
+        return $this->available;
+    }
+
+    public function setAvailable(?bool $available): self
+    {
+        $this->available = $available;
 
         return $this;
     }
